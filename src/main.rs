@@ -4,6 +4,7 @@ extern crate gio;
 use gtk::prelude::*;
 use gio::prelude::*;
 use gtk::WidgetExt;
+use gtk::GridExt;
 
 struct HeaderUi {
 	headerbar: gtk::HeaderBar,
@@ -28,38 +29,18 @@ fn ui(app: &gtk::Application) {
 
 	// (width, height);
     window.set_default_size(600, 300);
-
-    let container = gtk::Box::new(
-		gtk::Orientation::Vertical,
-		0
-	);
     
+	let main_grid = gtk::Grid::new ();
 
     let full_url = gtk::Entry::new ();
 
     let shorten_url_button = gtk::Button::new_with_label("Shorten URL!");
 
+	GridExt::attach (&main_grid, &full_url , 0 , 0 ,1 ,1);
 
-    container.pack_start(
-		&entry,
-		false,
-		false,
-		0
-    );
-    container.pack_start(
-		&entry2,
-		false,
-		false,
-		0
-    );
-    container.pack_start (
-        &shorten_url_button,
-        false,
-        false,
-        0
-    );
+	GridExt::attach (&main_grid, &shorten_url_button , 0 , 1 ,1 ,1);
 
-    window.add(&container);
+    window.add(&main_grid);
 
     window.show_all();
 }
