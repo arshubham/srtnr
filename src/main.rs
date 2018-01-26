@@ -3,6 +3,7 @@ extern crate gio;
 
 use gtk::prelude::*;
 use gio::prelude::*;
+use gtk::WidgetExt;
 
 struct HeaderUi {
 	headerbar: gtk::HeaderBar,
@@ -28,11 +29,43 @@ fn ui(app: &gtk::Application) {
 	// (width, height);
     window.set_default_size(600, 300);
 
-    window.show_all();
+    let container = gtk::Box::new(
+		gtk::Orientation::Vertical,
+		0
+	);
+    
 
+    let full_url = gtk::Entry::new ();
+
+    let shorten_url_button = gtk::Button::new_with_label("Shorten URL!");
+
+
+    container.pack_start(
+		&entry,
+		false,
+		false,
+		0
+    );
+    container.pack_start(
+		&entry2,
+		false,
+		false,
+		0
+    );
+    container.pack_start (
+        &shorten_url_button,
+        false,
+        false,
+        0
+    );
+
+    window.add(&container);
+
+    window.show_all();
 }
 
 fn main () {
+
     let app = gtk::Application::new(
 		"com.github.arshubham.srtnr",
 		gio::ApplicationFlags::empty()
