@@ -81,7 +81,7 @@ fn ui(app: &gtk::Application) {
 	         let bambz_short_url = match bambz_short_url {
         Ok(bambz_short_url) => label_clone.set_label(&bambz_short_url),
         Err(error) => {
-            panic!("There was a problem opening the file: {:?}", error)
+            label_clone.set_label (&std::string::ToString::to_string(&error))
         },
     };
         } else if gtk::ToggleButtonExt::get_active (&is_gd_radiobutton) {
@@ -90,7 +90,7 @@ fn ui(app: &gtk::Application) {
              let isgd_short_url = match isgd_short_url {
         Ok(isgd_short_url) => label_clone.set_label(&isgd_short_url),
         Err(error) => {
-            panic!("There was a problem opening the file: {:?}", error)
+            label_clone.set_label (&std::string::ToString::to_string(&error))
         },
     };
         } else if gtk::ToggleButtonExt::get_active (&hmm_rs_radiobutton){
@@ -99,7 +99,7 @@ fn ui(app: &gtk::Application) {
              let hmmrs_short_url = match hmmrs_short_url {
         Ok(hmmrs_short_url) => label_clone.set_label(&hmmrs_short_url),
         Err(error) => {
-            panic!("There was a problem opening the file: {:?}", error)
+            label_clone.set_label (&std::string::ToString::to_string(&error))
         },
     };
         } else if gtk::ToggleButtonExt::get_active (&tny_im_radiobutton){
@@ -108,7 +108,7 @@ fn ui(app: &gtk::Application) {
              let tnyim_short_url = match tnyim_short_url {
         Ok(tnyim_short_url) => label_clone.set_label(&tnyim_short_url),
         Err(error) => {
-            panic!("There was a problem opening the file: {:?}", error)
+            label_clone.set_label (&std::string::ToString::to_string(&error))
         },
     };
         } else {
