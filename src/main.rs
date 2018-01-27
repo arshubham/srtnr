@@ -7,12 +7,12 @@ use gtk::WidgetExt;
 use gtk::GridExt;
 
 struct HeaderUi {
-	headerbar: gtk::HeaderBar,
+    headerbar: gtk::HeaderBar,
 }
 
 impl HeaderUi {
-	fn new() -> HeaderUi {
-		let headerbar = gtk::HeaderBar::new();
+    fn new () -> HeaderUi {
+	    let headerbar = gtk::HeaderBar::new();
 		headerbar.set_title("Srtnr");
 		headerbar.set_show_close_button(true);
 
@@ -31,14 +31,31 @@ fn ui(app: &gtk::Application) {
     window.set_default_size(600, 300);
     
 	let main_grid = gtk::Grid::new ();
+	GridExt::set_row_spacing (&main_grid, 12);
+	GridExt::set_column_spacing (&main_grid, 6);
+	main_grid.set_margin_top (20);
+	main_grid.set_halign(gtk::Align::Center);
+	main_grid.set_column_homogeneous (true);
 
-    let full_url = gtk::Entry::new ();
+	let url_label = gtk::Label::new_with_mnemonic(Some("Enter Url:"));
+	url_label.set_halign (gtk::Align::Start);
+
+    let full_url_entry = gtk::Entry::new ();
 
     let shorten_url_button = gtk::Button::new_with_label("Shorten URL!");
 
-	GridExt::attach (&main_grid, &full_url , 0 , 0 ,1 ,1);
+    let short_url_label = gtk::Label::new ("");
 
-	GridExt::attach (&main_grid, &shorten_url_button , 0 , 1 ,1 ,1);
+    let label_clone = short_url_label.clone();
+	shorten_url_button.connect_clicked( move |_| {
+        label_clone.set_label("I've been clicked!");
+    });
+
+
+    GridExt::attach (&main_grid, &url_label, 0, 0, 1, 1);
+	GridExt::attach (&main_grid, &full_url_entry , 1 , 0 ,4 ,1);
+	GridExt::attach (&main_grid, &shorten_url_button , 1 , 1 ,1 ,1);
+	GridExt::attach (&main_grid, &short_url_label, 1, 2, 4, 1);
 
     window.add(&main_grid);
 
