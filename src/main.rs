@@ -1,10 +1,13 @@
 extern crate gtk;
 extern crate gio;
+extern crate urlshortener;
 
 use gtk::prelude::*;
 use gio::prelude::*;
 use gtk::WidgetExt;
 use gtk::GridExt;
+
+use urlshortener::{Provider, UrlShortener};
 
 struct HeaderUi {
     headerbar: gtk::HeaderBar,
@@ -46,9 +49,15 @@ fn ui(app: &gtk::Application) {
 
     let short_url_label = gtk::Label::new ("");
 
-    let label_clone = short_url_label.clone();
+    let label_clone = short_url_label.clone ();
+    let entry_clone = full_url_entry.clone ();
 	shorten_url_button.connect_clicked( move |_| {
-        label_clone.set_label("I've been clicked!");
+
+	    let url = gtk::EntryExt::get_text (&entry_clone).unwrap ();
+	    let us = UrlShortener::new().unwrap();
+	    let short_url = us.generate(url, &Provider::IsGd);
+	    println!("{:?}", short_url);
+        //label_clone.set_label(&short_url);
     });
 
 
@@ -73,6 +82,7 @@ fn main () {
 		ui(&app);
 	});
 
+    app.connect_activate(|_| {});
 	//run app
     app.run(&std::env::args().collect::<Vec<_>>());
 }

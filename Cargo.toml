@@ -9,4 +9,4 @@ features = ["v3_22"]
 
 [dependencies]
 gio = "0.3.0"
-
+urlshortener = "0.8.0"
