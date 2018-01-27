@@ -75,14 +75,32 @@ fn ui(app: &gtk::Application) {
 	    let url = gtk::EntryExt::get_text (&entry_clone).unwrap ();
 	    let us = UrlShortener::new().unwrap();
 
-	    let short_url = us.generate(url, &Provider::IsGd);
-
-	    let short_url = match short_url {
+        if gtk::ToggleButtonExt::get_active (&v_gd_radiobutton) {
+	        let vgd_short_url = us.generate(url, &Provider::VGd);
+	         let vgd_short_url = match vgd_short_url {
+        Ok(vgd_short_url) => label_clone.set_label(&vgd_short_url),
+        Err(error) => {
+            panic!("There was a problem opening the file: {:?}", error)
+        },
+    };
+        } else if gtk::ToggleButtonExt::get_active (&is_gd_radiobutton) {
+            let isgd_short_url = us.generate(url, &Provider::IsGd);
+             let isgd_short_url = match isgd_short_url {
+        Ok(isgd_short_url) => label_clone.set_label(&isgd_short_url),
+        Err(error) => {
+            panic!("There was a problem opening the file: {:?}", error)
+        },
+    };
+        } else {
+            let short_url = us.generate(url, &Provider::HmmRs);
+             let short_url = match short_url {
         Ok(short_url) => label_clone.set_label(&short_url),
         Err(error) => {
             panic!("There was a problem opening the file: {:?}", error)
         },
     };
+        }
+
 
     });
 
