@@ -6,6 +6,7 @@ use gtk::prelude::*;
 use gio::prelude::*;
 use gtk::WidgetExt;
 use gtk::GridExt;
+use gtk::BoxExt;
 
 use urlshortener::{Provider, UrlShortener};
 
@@ -49,8 +50,19 @@ fn ui(app: &gtk::Application) {
 
     let short_url_label = gtk::Label::new ("");
 
+
+    let is_gd_radiobutton = gtk::RadioButton::new_with_label("is.gd");
+    let v_gd_radiobutton = gtk::RadioButton::new_with_label_from_widget(&is_gd_radiobutton, "v.gd");
+    let radiobutton1clone = is_gd_radiobutton.clone ();
+    let radiobutton2clone = v_gd_radiobutton.clone ();
+
+    let radio_button_group = vec![radiobutton1clone, radiobutton2clone];
     let label_clone = short_url_label.clone ();
     let entry_clone = full_url_entry.clone ();
+
+    let radiobutton1clone1 = is_gd_radiobutton.clone ();
+    let radiobutton2clone2 = v_gd_radiobutton.clone ();
+
 	shorten_url_button.connect_clicked( move |_| {
 
 	    let url = gtk::EntryExt::get_text (&entry_clone).unwrap ();
@@ -70,7 +82,9 @@ fn ui(app: &gtk::Application) {
     GridExt::attach (&main_grid, &url_label, 0, 0, 1, 1);
 	GridExt::attach (&main_grid, &full_url_entry , 1 , 0 ,4 ,1);
 	GridExt::attach (&main_grid, &shorten_url_button , 1 , 1 ,1 ,1);
-	GridExt::attach (&main_grid, &short_url_label, 1, 2, 4, 1);
+	GridExt::attach (&main_grid, &radiobutton1clone1, 1 ,2 ,1,1);
+	GridExt::attach (&main_grid, &radiobutton2clone2, 2, 2, 1, 1);
+	GridExt::attach (&main_grid, &short_url_label, 1, 4, 4, 1);
 
     window.add(&main_grid);
 
