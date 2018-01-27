@@ -56,8 +56,14 @@ fn ui(app: &gtk::Application) {
 	    let url = gtk::EntryExt::get_text (&entry_clone).unwrap ();
 	    let us = UrlShortener::new().unwrap();
 	    let short_url = us.generate(url, &Provider::IsGd);
-	    println!("{:?}", short_url);
-        //label_clone.set_label(&short_url);
+
+	    let short_url = match short_url {
+        Ok(short_url) => label_clone.set_label(&short_url),
+        Err(error) => {
+            panic!("There was a problem opening the file: {:?}", error)
+        },
+    };
+
     });
 
 
