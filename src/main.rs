@@ -53,7 +53,7 @@ fn ui(app: &gtk::Application) {
     let goo_gl_radiobutton = gtk::RadioButton::new_with_label("goo.gl");
     let bit_ly_radiobutton = gtk::RadioButton::new_with_label_from_widget(&goo_gl_radiobutton, "bit.ly");
     let is_gd_radiobutton = gtk::RadioButton::new_with_label_from_widget(&goo_gl_radiobutton, "is.gd");
-    let v_gd_radiobutton = gtk::RadioButton::new_with_label_from_widget(&goo_gl_radiobutton, "v.gd");
+    let bam_bz_radiobutton = gtk::RadioButton::new_with_label_from_widget(&goo_gl_radiobutton, "bam.bz");
     let tny_im_radiobutton = gtk::RadioButton::new_with_label_from_widget(&goo_gl_radiobutton, "tny.im");
     let hmm_rs_radiobutton = gtk::RadioButton::new_with_label_from_widget(&goo_gl_radiobutton, "hmm.rs");
 
@@ -64,7 +64,7 @@ fn ui(app: &gtk::Application) {
     let goo_gl_rb_clone = goo_gl_radiobutton.clone ();
     let bit_ly_rb_clone = bit_ly_radiobutton.clone ();
     let is_gd_rb_clone = is_gd_radiobutton.clone ();
-    let v_gd_rb_clone = v_gd_radiobutton.clone ();
+    let bam_bz_rb_clone = bam_bz_radiobutton.clone ();
     let tny_im_rb_clone = tny_im_radiobutton.clone ();
     let hmm_rs_rb_clone = hmm_rs_radiobutton.clone ();
     let label_clone = short_url_label.clone ();
@@ -73,32 +73,46 @@ fn ui(app: &gtk::Application) {
 	shorten_url_button.connect_clicked( move |_| {
 
 	    let url = gtk::EntryExt::get_text (&entry_clone).unwrap ();
-	    let us = UrlShortener::new().unwrap();
 
-        if gtk::ToggleButtonExt::get_active (&v_gd_radiobutton) {
-	        let vgd_short_url = us.generate(url, &Provider::VGd);
-	         let vgd_short_url = match vgd_short_url {
-        Ok(vgd_short_url) => label_clone.set_label(&vgd_short_url),
+
+        if gtk::ToggleButtonExt::get_active (&bam_bz_radiobutton) {
+        let us1 = UrlShortener::new().unwrap();
+	        let bambz_short_url = us1.generate(url, &Provider::BamBz);
+	         let bambz_short_url = match bambz_short_url {
+        Ok(bambz_short_url) => label_clone.set_label(&bambz_short_url),
         Err(error) => {
             panic!("There was a problem opening the file: {:?}", error)
         },
     };
         } else if gtk::ToggleButtonExt::get_active (&is_gd_radiobutton) {
-            let isgd_short_url = us.generate(url, &Provider::IsGd);
+        let us2 = UrlShortener::new().unwrap();
+            let isgd_short_url = us2.generate(url, &Provider::IsGd);
              let isgd_short_url = match isgd_short_url {
         Ok(isgd_short_url) => label_clone.set_label(&isgd_short_url),
         Err(error) => {
             panic!("There was a problem opening the file: {:?}", error)
         },
     };
-        } else {
-            let short_url = us.generate(url, &Provider::HmmRs);
-             let short_url = match short_url {
-        Ok(short_url) => label_clone.set_label(&short_url),
+        } else if gtk::ToggleButtonExt::get_active (&hmm_rs_radiobutton){
+        let us3 = UrlShortener::new().unwrap();
+            let hmmrs_short_url = us3.generate(url, &Provider::HmmRs);
+             let hmmrs_short_url = match hmmrs_short_url {
+        Ok(hmmrs_short_url) => label_clone.set_label(&hmmrs_short_url),
         Err(error) => {
             panic!("There was a problem opening the file: {:?}", error)
         },
     };
+        } else if gtk::ToggleButtonExt::get_active (&tny_im_radiobutton){
+        let us4 = UrlShortener::new().unwrap();
+            let tnyim_short_url = us4.generate(url, &Provider::TnyIm);
+             let tnyim_short_url = match tnyim_short_url {
+        Ok(tnyim_short_url) => label_clone.set_label(&tnyim_short_url),
+        Err(error) => {
+            panic!("There was a problem opening the file: {:?}", error)
+        },
+    };
+        } else {
+            label_clone.set_label("Choose");
         }
 
 
@@ -111,7 +125,7 @@ fn ui(app: &gtk::Application) {
     GridExt::attach (&main_grid, &goo_gl_rb_clone, 1 ,1 ,1,1);
     GridExt::attach (&main_grid, &bit_ly_rb_clone, 2 ,1 ,1,1);
 	GridExt::attach (&main_grid, &is_gd_rb_clone, 0 ,2 ,1,1);
-	GridExt::attach (&main_grid, &v_gd_rb_clone, 1, 2, 1, 1);
+	GridExt::attach (&main_grid, &bam_bz_rb_clone, 1, 2, 1, 1);
 	GridExt::attach (&main_grid, &tny_im_rb_clone, 2 ,2 ,1,1);
 	GridExt::attach (&main_grid, &hmm_rs_rb_clone, 3 ,2 ,1,1);
 
