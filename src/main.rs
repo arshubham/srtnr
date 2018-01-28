@@ -41,18 +41,16 @@ fn ui(app: &gtk::Application) {
 	main_grid.set_halign(gtk::Align::Center);
 	main_grid.set_column_homogeneous (true);
 
-	let url_label = gtk::Label::new_with_mnemonic(Some("Enter Url:"));
-	url_label.set_halign (gtk::Align::Start);
-
     let input_group_grid = gtk::Grid::new ();
     let protocol_label = gtk::Label::new_with_mnemonic(Some ("http://"));
     let full_url_entry = gtk::Entry::new ();
     let entry_clone = full_url_entry.clone ();
     GridExt::attach (&input_group_grid, &protocol_label, 0, 0, 1, 1);
-    GridExt::attach (&input_group_grid, &entry_clone,1, 0, 3, 1);
+    GridExt::attach (&input_group_grid, &entry_clone, 1, 0, 4, 1);
     input_group_grid.set_column_homogeneous (true);
     input_group_grid.set_margin_start (0);
     input_group_grid.set_margin_end (0);
+    input_group_grid.set_halign (gtk::Align::Fill);
     input_group_grid.set_column_spacing (0);
 
 
@@ -131,8 +129,8 @@ fn ui(app: &gtk::Application) {
     });
 
 
-    GridExt::attach (&main_grid, &url_label, 0, 0, 1, 1);
-	GridExt::attach (&main_grid, &input_group_grid_clone , 1 , 0 , 2 ,1);
+
+	GridExt::attach (&main_grid, &input_group_grid_clone , 0 , 0 , 4 ,1);
 
     GridExt::attach (&main_grid, &goo_gl_rb_clone, 1 ,1 ,1,1);
     GridExt::attach (&main_grid, &bit_ly_rb_clone, 2 ,1 ,1,1);
