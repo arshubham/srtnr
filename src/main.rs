@@ -6,6 +6,7 @@ use gtk::prelude::*;
 use gio::prelude::*;
 use gtk::WidgetExt;
 use gtk::GridExt;
+use gtk::BoxExt;
 
 use urlshortener::{Provider, UrlShortener};
 
@@ -43,7 +44,17 @@ fn ui(app: &gtk::Application) {
 	let url_label = gtk::Label::new_with_mnemonic(Some("Enter Url:"));
 	url_label.set_halign (gtk::Align::Start);
 
+    let input_group_grid = gtk::Grid::new ();
+    let protocol_label = gtk::Label::new_with_mnemonic(Some ("http://"));
     let full_url_entry = gtk::Entry::new ();
+    let entry_clone = full_url_entry.clone ();
+    GridExt::attach (&input_group_grid, &protocol_label, 0, 0, 1, 1);
+    GridExt::attach (&input_group_grid, &entry_clone,1, 0, 3, 1);
+    input_group_grid.set_column_homogeneous (true);
+    input_group_grid.set_margin_start (0);
+    input_group_grid.set_margin_end (0);
+    input_group_grid.set_column_spacing (0);
+
 
     let shorten_url_button = gtk::Button::new_with_label("Shorten URL!");
 
@@ -68,11 +79,12 @@ fn ui(app: &gtk::Application) {
     let tny_im_rb_clone = tny_im_radiobutton.clone ();
     let hmm_rs_rb_clone = hmm_rs_radiobutton.clone ();
     let label_clone = short_url_label.clone ();
-    let entry_clone = full_url_entry.clone ();
+    let entry_clone2 = entry_clone.clone ();
+    let input_group_grid_clone = input_group_grid.clone ();
 
 	shorten_url_button.connect_clicked( move |_| {
 
-	    let url = gtk::EntryExt::get_text (&entry_clone).unwrap ();
+	    let url = gtk::EntryExt::get_text (&entry_clone2).unwrap ();
 
 
         if gtk::ToggleButtonExt::get_active (&bam_bz_radiobutton) {
@@ -120,7 +132,7 @@ fn ui(app: &gtk::Application) {
 
 
     GridExt::attach (&main_grid, &url_label, 0, 0, 1, 1);
-	GridExt::attach (&main_grid, &full_url_entry , 1 , 0 ,3 ,1);
+	GridExt::attach (&main_grid, &input_group_grid_clone , 1 , 0 , 2 ,1);
 
     GridExt::attach (&main_grid, &goo_gl_rb_clone, 1 ,1 ,1,1);
     GridExt::attach (&main_grid, &bit_ly_rb_clone, 2 ,1 ,1,1);
