@@ -12,6 +12,8 @@ use urlshortener::{Provider, UrlShortener};
 
 struct HeaderUi {
     headerbar: gtk::HeaderBar,
+    switch: gtk::Switch,
+    label: gtk::Label
 }
 
 impl HeaderUi {
@@ -20,7 +22,12 @@ impl HeaderUi {
 		headerbar.set_title("Srtnr");
 		headerbar.set_show_close_button(true);
 
-		HeaderUi { headerbar }
+        let switch = gtk::Switch::new();
+        let label = gtk::Label::new_with_mnemonic (Some("Using http"));
+
+        headerbar.pack_end(&switch);
+        headerbar.pack_end (&label);
+		HeaderUi { headerbar, switch, label }
 	}
 }
 
