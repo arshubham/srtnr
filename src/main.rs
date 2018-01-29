@@ -8,7 +8,7 @@ use gtk::WidgetExt;
 use gtk::GridExt;
 use gtk::BoxExt;
 
-use urlshortener::{Provider, UrlShortener};
+use urlshortener::{ UrlShortener, Provider };
 
 struct HeaderUi {
     headerbar: gtk::HeaderBar,
@@ -34,12 +34,13 @@ impl HeaderUi {
 fn ui(app: &gtk::Application) {
     let window = gtk::ApplicationWindow::new(app);
     let header = HeaderUi::new();
-
+    let switch = header.switch;
+    let label = header.label;
     // Window HeaderBar
 	window.set_titlebar(&header.headerbar);
 
 	// (width, height);
-    window.set_default_size(600, 300);
+    window.set_default_size(700, 500);
     
 	let main_grid = gtk::Grid::new ();
 	GridExt::set_row_spacing (&main_grid, 12);
@@ -86,13 +87,53 @@ fn ui(app: &gtk::Application) {
     let label_clone = short_url_label.clone ();
     let entry_clone2 = entry_clone.clone ();
     let input_group_grid_clone = input_group_grid.clone ();
+    let protocol_label_clone = protocol_label.clone ();
+    let protocol_label_clone2 = protocol_label.clone ();
+
+
+    let header_label_clone = label.clone ();
+    switch.connect_property_active_notify(move |switch| {
+		if switch.get_active() {
+            protocol_label_clone.set_text ("https://");
+			header_label_clone.set_text("Using https");
+		} else {
+            protocol_label_clone.set_text ("http://");
+			header_label_clone.set_text("Using http");
+		}
+    });
+
+
 
 	shorten_url_button.connect_clicked( move |_| {
+        let protocol_str = gtk::LabelExt::get_text (&protocol_label_clone2).unwrap ();
+	    let url_entry_text = gtk::EntryExt::get_text (&entry_clone2).unwrap ();
 
-	    let url = gtk::EntryExt::get_text (&entry_clone2).unwrap ();
+        let url = protocol_str + &url_entry_text;
 
 
-        if gtk::ToggleButtonExt::get_active (&bam_bz_radiobutton) {
+        // AIzaSyBCT1JDPSXKOhbSbDAqnaSOzAVMFQ46EZ4 
+        if gtk::ToggleButtonExt::get_active (&goo_gl_radiobutton) {
+        let us0 = UrlShortener::new().unwrap();
+        let key = "AIzaSyBCT1JDPSXKOhbSbDAqnaSOzAVMFQ46EZ4";
+	        let googl_short_url = us0.generate(url, &urlshortener::Provider::GooGl { api_key: key.to_owned() });
+	         let googl_short_url = match googl_short_url {
+        Ok(googl_short_url) => label_clone.set_label(&googl_short_url),
+        Err(error) => {
+            label_clone.set_label (&std::string::ToString::to_string(&error))
+        },
+    };
+        }
+        else if gtk::ToggleButtonExt::get_active (&bit_ly_radiobutton) {
+        let us04 = UrlShortener::new().unwrap();
+        let token = "659fe6b3a2686e9f04c6f73ad50f3d601bb2e0fa";
+	        let bitly_short_url = us04.generate(url, &urlshortener::Provider::BitLy { token: token.to_owned() });
+	         let bitly_short_url = match bitly_short_url {
+        Ok(bitly_short_url) => label_clone.set_label(&bitly_short_url),
+        Err(error) => {
+            label_clone.set_label (&std::string::ToString::to_string(&error))
+        },
+    };
+        } else if gtk::ToggleButtonExt::get_active (&bam_bz_radiobutton) {
         let us1 = UrlShortener::new().unwrap();
 	        let bambz_short_url = us1.generate(url, &Provider::BamBz);
 	         let bambz_short_url = match bambz_short_url {
