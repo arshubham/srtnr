@@ -5,7 +5,7 @@ authors = ["Shubham Arora <shubhamarora@protonmail.com>"]
 
 [dependencies.gtk]
 version = "0.3.0"
-features = ["v3_22"]
+features = ["v3_18"]
 
 [dependencies]
 gio = "0.3.0"
