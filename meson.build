@@ -1,6 +1,6 @@
 project(
   'com.github.arshubham.srtnr', 'rust',
-  version: '0.1.0',
+  version: '0.1.2',
   license: 'GPLv3',
 )
 
@@ -30,7 +30,3 @@ cargo_release = custom_target('cargo-build',
                         install: true,
                         install_dir: srtnr_bindir,
                         command: [cargo_script, '@CURRENT_SOURCE_DIR@', '@OUTPUT@'])
-
-run_target('release', command: ['scripts/release.sh',
-                                meson.project_name() + '-' + srtnr_version
-                               ])
