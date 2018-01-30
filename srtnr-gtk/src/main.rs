@@ -1,12 +1,12 @@
 extern crate gio;
 extern crate gtk;
 extern crate urlshortener;
+extern crate gdk;
 
 use gtk::prelude::*;
 use gio::prelude::*;
 use gtk::WidgetExt;
 use gtk::GridExt;
-
 use urlshortener::{Provider, UrlShortener};
 
 struct HeaderUi {
@@ -46,15 +46,7 @@ fn ui(app: &gtk::Application) {
     window.set_default_size(700, 550);
     window.set_size_request (700,550);
         gtk::GtkWindowExt::set_resizable (&window, false);
-        // let css_provider = gtk::StyleContext::new ();
-        // let style = gtk::WidgetExt::get_style_context (&header);
 
-        // let style = match style {
-        //         Ok(style) => gtk::StyleContextExt (&css_provider, ".flat"),
-        //         Err(style) => label_clone.set_label(&std::string::ToString::to_string(&error)),
-
-
-        // }
 
     let main_grid = gtk::Grid::new();
     GridExt::set_row_spacing(&main_grid, 12);
@@ -62,7 +54,6 @@ fn ui(app: &gtk::Application) {
     main_grid.set_margin_top(20);
     main_grid.set_margin_start(10);
     main_grid.set_margin_end (30);
-    // main_grid.set_halign(gtk::Align::Center);
     main_grid.set_column_homogeneous(true);
 
     let input_group_grid = gtk::Grid::new();
@@ -126,6 +117,13 @@ fn ui(app: &gtk::Application) {
             protocol_label_clone.set_text("http://");
             header_label_clone.set_text("Using http");
         }
+    });
+         let display = window.get_display().unwrap();
+    let short_url_label_clone = short_url_label.clone ();
+    copy_button.connect_clicked(move |_| {
+         let str_to_cpy = gtk::LabelExt::get_text (&short_url_label_clone).unwrap ();
+         let gclipboard = gtk::Clipboard::get_default(&display).unwrap();
+         gclipboard.set_text (&str_to_cpy);
     });
     shorten_url_button.connect_clicked(move |_| {
         

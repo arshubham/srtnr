@@ -10,4 +10,5 @@ features = ["v3_18"]
 
 [dependencies]
 gio = "0.3.0"
+gdk = "0.7.0"
 urlshortener = "0.8.0"
