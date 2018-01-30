@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2018 Shubham Arora <shubhamarora@protonmail.com> -->
+<component type="desktop-application">
+  <id>com.github.arshubham.srtnr.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0+</project_license>
+  <name>Srtnr</name>
+  <summary>Shorten long Urls</summary>
+  <developer_name>Shubham Arora</developer_name>
+  <provides>
+    <binary>com.github.arshubham.srtnr</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <image></image>
+    </screenshot>
+    <screenshot>
+      <image></image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.0" date="2018-01-31">
+      <description>
+        <p>Initial Release</p>
+      </description>
+    </release>
+  </releases>
+  <description>
+    <p>A simple utility to shorten long urls.</p>
+    <p>Supported Services</p>
+    <ul>
+      <li>goo.gl</li>
+      <li>bit.ly</li>
+      <li>is.gd</li>
+      <li>bam.bz</li>
+      <li>tny.im</li>
+      <li>hmm.rs</li>
+    </ul>
+  </description>
+  <url type="homepage">https://github.com/arshubham/srtnr</url>
+  <url type="bugtracker">https://github.com/arshubham/srtnr/issues</url>
+  <url type="help">shubhamarora.in</url>
+  <update_contact>shubhamarora@protonmail.com</update_contact>
+  <custom>
+    <value key="x-appcenter-color-primary">#BA635C</value>
+    <value key="x-appcenter-color-primary-text">#ECF0F1</value>
+    <value key="x-appcenter-suggested-price">0</value>
+  </custom>
+</component>

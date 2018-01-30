@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Srtnr
+Comment=Shorten long Urls
+Icon=com.github.arshubham.srtnr
+Exec=com.github.arshubham.srtnr
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Utility;
+Keywords=url-shortener;srtnr;short;shortener;url;internet;link;links;hyperlink;
