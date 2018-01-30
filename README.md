@@ -1,5 +1,5 @@
 <div align="center">
-  <img class="center" width="80" height="78" src="https://raw.githubusercontent.com/arshubham/srtnr/master/data/images/com.github.arshubham.srtnr.svg?token=ANk2N4H3ur0q7HrmlKeTQ1_8wvB2XMewks5aegeDwA%3D%3D" alt="Application Icon">
+  <img class="center" width="80" height="78" src="https://raw.githubusercontent.com/arshubham/srtnr/master/data/images/com.github.arshubham.srtnr.svg" alt="Application Icon">
   <h1 align="center">Srtnr</h1>
   <h3 align="center">A simple tool to shorten long URLs!.</h3>
   <h4 align="center">Designed for <a href="https://elementary.io">elementary OS</h4>
@@ -12,7 +12,7 @@
 
 
 <p align="center">
-    <img src="" alt="Screenshot"> <br>
+    <img src="https://raw.githubusercontent.com/arshubham/srtnr/master/data/images/Screenshot.png" alt="Screenshot"> <br>
 </p>
 
 
@@ -31,13 +31,15 @@
 
 ```
 git clone https://github.com/arshubham/srtnr.git && cd srtnr
-cargo install
+meson build && cd build
+ninja
+sudo ninja install
 
 ```
 
 ### Executing
 ```
-cargo run
+com.github.arshubham.srtnr
 ```
 
 ## License
