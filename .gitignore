@@ -1,4 +1,6 @@
-
+_build/
 /target
 **/*.rs.bk
 srtnr-gtk/target
+*~
+Makefile

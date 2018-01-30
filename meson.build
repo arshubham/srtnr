@@ -1,5 +1,5 @@
 project(
-  'srtnr', 'rust',
+  'com.github.arshubham.srtnr', 'rust',
   version: '0.1.0',
   license: 'GPLv3',
 )
@@ -27,11 +27,11 @@ cargo_release = find_program('scripts/release.sh')
 cargo_release = custom_target('cargo-build',
                         build_by_default: true,
                         build_always: true,
-                        output: ['fractal'],
+                        output: ['srtnr'],
                         install: true,
-                        install_dir: fractal_bindir,
+                        install_dir: srtnr_bindir,
                         command: [cargo_script, '@CURRENT_SOURCE_DIR@', '@OUTPUT@'])
 
 run_target('release', command: ['scripts/release.sh',
-                                meson.project_name() + '-' + fractal_version
+                                meson.project_name() + '-' + srtnr_version
                                ])

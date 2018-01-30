@@ -2,19 +2,19 @@
 
 
 current=$(cat meson.build | grep -Eo "version: '(.*)'" | grep -Eo "[0-9]+\.[0-9]+.[0-9]+")
-mayor=$(echo $current | cut -d"." -f1)
+major=$(echo $current | cut -d"." -f1)
 minor=$(echo $current | cut -d"." -f2)
 rev=$(echo $current | cut -d"." -f3)
 
 case $1 in
-"mayor")
-    next=$(echo $(($mayor + 1)).0.0)
+"major")
+    next=$(echo $(($major + 1)).0.0)
     ;;
 "minor")
-    next=$(echo $mayor.$(($minor + 1)).0)
+    next=$(echo $major.$(($minor + 1)).0)
     ;;
 *)
-    next=$(echo $mayor.$minor.$(($rev + 1)))
+    next=$(echo $major.$minor.$(($rev + 1)))
     ;;
 esac
 

@@ -1,5 +1,5 @@
 [package]
-name = "srtnr"
+name = "srtnr-gtk"
 version = "0.1.0"
 authors = ["Shubham Arora <shubhamarora@protonmail.com>"]
 workspace = "../"
