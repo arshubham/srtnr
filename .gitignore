@@ -4,3 +4,4 @@ _build/
 srtnr-gtk/target
 *~
 Makefile
+build/

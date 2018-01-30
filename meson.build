@@ -16,13 +16,12 @@ srtnr_bindir = join_paths(srtnr_prefix, get_option('bindir'))
 datadir = get_option('datadir')
 icondir = join_paths(datadir, 'icons')
 
-subdir('srtnr-gtk/res')
+subdir('data')
 
+#Add path for rustup here later
 cargo = find_program('cargo', required: false)
 gresource = find_program('glib-compile-resources', required: false)
-cargo_vendor = find_program('cargo-vendor', required: false)
 cargo_script = find_program('scripts/cargo.sh')
-cargo_release = find_program('scripts/release.sh')
 
 cargo_release = custom_target('cargo-build',
                         build_by_default: true,
