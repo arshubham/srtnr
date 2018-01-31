@@ -5,3 +5,4 @@ srtnr-gtk/target
 *~
 Makefile
 build/
+Cargo.lock
