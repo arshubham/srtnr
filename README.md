@@ -24,12 +24,12 @@
 ```
 - pkgconf
 - libssl-dev
-- rustc *
-- cargo *
+- rustc
+- cargo
 - meson
 ```
 
-** (*) ** : Use rustc and cargo from repository instead of rustup for now. There are some issues when running ```ninja install``` . You can still use the **rustup** version if you just want to run the application using cargo.
+**Note** : Use rustc and cargo from repository instead of rustup for now. There are some issues when running ```ninja install``` . You can still use the **rustup** version if you just want to run the application using cargo.
 
 ### Executing without Installation
 
