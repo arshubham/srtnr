@@ -22,12 +22,23 @@
 ### Requiered Dependencies
 
 ```
-- rustc
-- cargo
+- pkgconf
+- libssl-dev
+- rustc *
+- cargo *
 - meson
 ```
 
-### Building
+** (*) ** : Use rustc and cargo from repository instead of rustup for now. There are some issues when running ```ninja install``` . You can still use the **rustup** version if you just want to run the application using cargo.
+
+### Executing without Installation
+
+```
+cd srtnr
+cargo run
+```
+
+### Building and Installation
 
 ```
 git clone https://github.com/arshubham/srtnr.git && cd srtnr
