@@ -32,7 +32,7 @@
 **Note** : Use rustc and cargo from repository instead of rustup for now. There are some issues when running ```ninja install``` . You can still use the **rustup** version if you just want to run the application using cargo.
 
 ### Delete Vendor Files 
-#### May create problems while compilation 
+##### (These are only needed for houston and may create problems when building) 
 ```
 cd srtnr
 rm -r vendor
