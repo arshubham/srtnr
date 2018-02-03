@@ -11,40 +11,41 @@ use urlshortener::{Provider, UrlShortener};
 
 struct HeaderUi {
     headerbar: gtk::HeaderBar,
-    switch: gtk::Switch,
-    label: gtk::Label,
+    headerbar_protocol_switch: gtk::Switch,
+    headerbar_protocol_label: gtk::Label,
 }
 
 impl HeaderUi {
-    fn new() -> HeaderUi {
-        let headerbar = gtk::HeaderBar::new();
-        headerbar.set_title("Srtnr");
-        headerbar.set_show_close_button(true);
+    fn new () -> HeaderUi {
+        let headerbar = gtk::HeaderBar::new ();
+        headerbar.set_title ("Srtnr");
+        headerbar.set_show_close_button (true);
 
-        let switch = gtk::Switch::new();
-        let label = gtk::Label::new_with_mnemonic(Some("Using http"));
+        let headerbar_protocol_switch = gtk::Switch::new();
+        let headerbar_protocol_label = gtk::Label::new_with_mnemonic (Some ("Using http"));
 
-        headerbar.pack_end(&switch);
-        headerbar.pack_end(&label);
+        headerbar.pack_end (&headerbar_protocol_switch);
+        headerbar.pack_end (&headerbar_protocol_label);
+
         HeaderUi {
             headerbar,
-            switch,
-            label,
+            headerbar_protocol_switch,
+            headerbar_protocol_label,
         }
     }
 }
 
-fn ui(app: &gtk::Application) {
-    let window = gtk::ApplicationWindow::new(app);
-    let header = HeaderUi::new();
-    let switch = header.switch;
-    let label = header.label;
+fn ui (app: &gtk::Application) {
+    let window = gtk::ApplicationWindow::new (app);
+    let headerbar = HeaderUi::new ();
+    let headerbar_protocol_switch = headerbar.headerbar_protocol_switch;
+    let headerbar_protocol_label = headerbar.headerbar_protocol_label;
     // Window HeaderBar
-    window.set_titlebar(&header.headerbar);
+    window.set_titlebar (&headerbar.headerbar);
     // (width, height);
-    window.set_default_size(700, 550);
-    window.set_size_request(700, 550);
-    gtk::GtkWindowExt::set_resizable(&window, false);
+    window.set_default_size (700, 550);
+    window.set_size_request (700, 550);
+    gtk::GtkWindowExt::set_resizable (&window, false);
 
     let main_grid = gtk::Grid::new();
     GridExt::set_row_spacing(&main_grid, 12);
@@ -114,10 +115,10 @@ fn ui(app: &gtk::Application) {
     let copy_button_clone = copy_button.clone();
     let copy_button_clone2 = copy_button.clone();
 
-    let header_label_clone = label.clone();
+    let header_label_clone = headerbar_protocol_label.clone();
 
-    switch.connect_property_active_notify(move |switch| {
-        if switch.get_active() {
+    headerbar_protocol_switch.connect_property_active_notify(move |headerbar_protocol_switch| {
+        if headerbar_protocol_switch.get_active() {
             protocol_label_clone.set_text("https://");
             header_label_clone.set_text("Using https");
         } else {
@@ -249,15 +250,14 @@ fn ui(app: &gtk::Application) {
     window.show_all();
 }
 
-fn main() {
+fn main () {
     let app = gtk::Application::new("com.github.arshubham.srtnr", gio::ApplicationFlags::empty())
-        .expect("Failed..");
+        .expect("Failed to create Application");
 
     app.connect_startup(|app| {
         ui(&app);
     });
-
     app.connect_activate(|_| {});
-    //run app
+
     app.run(&std::env::args().collect::<Vec<_>>());
 }
