@@ -26,6 +26,7 @@
 - libssl-dev
 - rustc
 - cargo
+- libpng-dev
 - meson
 ```
 
