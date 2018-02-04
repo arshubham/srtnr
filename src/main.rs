@@ -9,12 +9,13 @@ extern crate glib;
 
 use gtk::prelude::*;
 use gio::prelude::*;
-use gtk::WidgetExt;
 use gtk::GridExt;
+use gtk::{HeaderBarExt, WidgetExt, StyleContextExt};
 use urlshortener::{Provider, UrlShortener};
 
 struct HeaderUi {
-    headerbar: gtk::HeaderBar
+    headerbar: gtk::HeaderBar,
+    preferences_button: gtk::Button,
 }
 
 impl HeaderUi {
@@ -22,9 +23,15 @@ impl HeaderUi {
         let headerbar = gtk::HeaderBar::new ();
         headerbar.set_title ("Srtnr");
         headerbar.set_show_close_button (true);
-        
+
+        let preferences_button = gtk::Button::new_from_icon_name ("preferences-other", gtk::IconSize::LargeToolbar.into ());
+
+        headerbar.pack_end (&preferences_button);
+
+        headerbar.get_style_context().map(|c| c.add_class("flat"));
         HeaderUi {
             headerbar,
+            preferences_button,
         }
     }
 }
@@ -38,7 +45,9 @@ fn ui (app: &gtk::Application) {
 
     //headerbar
     let headerbar = HeaderUi::new ();
+    let headerbar_preferences_button = headerbar.preferences_button;
     window.set_titlebar (&headerbar.headerbar);
+
 
     //window size control
     window.set_default_size (700, 550);
