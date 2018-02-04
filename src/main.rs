@@ -107,12 +107,14 @@ fn ui (app: &gtk::Application) {
     let tny_im_rb_clone = tny_im_radiobutton.clone();
     let hmm_rs_rb_clone = hmm_rs_radiobutton.clone();
 
-    // let type_in_col = &[gtk::Type::String];
-    // let list_model = gtk::ListStore::new(type_in_col);
-    // list_model.insert_with_values(Some (0), &[0], &[&"goo.gl"]);
-    // list_model.insert_with_values(Some (1), &[0], &[&"bit.ly"]);
-    //  gtk::ListStore::e
-    // let combobox  = gtk::ComboBox::new_with_model (&list_model);
+    let model_store =  gtk::ListStore::new(&[gtk::Type::String]);
+    model_store.insert_with_values(None, &[0], &[&"String1"]);
+    model_store.insert_with_values(None, &[0], &[&"String2"]);
+    model_store.insert_with_values(None, &[0], &[&"String3"]);
+    model_store.insert_with_values(None, &[0], &[&"String4"]);
+    let combobox = gtk::ComboBox::new ();
+    combobox.set_model(Some(&model_store));
+    combobox.set_active(0);
 
     //shorten url button
     let shorten_url_button = gtk::Button::new_with_label ("Shorten URL!");
