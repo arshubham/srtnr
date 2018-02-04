@@ -50,8 +50,8 @@ fn ui (app: &gtk::Application) {
 
 
     //window size control
-    window.set_default_size (700, 550);
-    window.set_size_request (700, 550);
+    window.set_default_size (700, 500);
+    window.set_size_request (700, 500);
     gtk::GtkWindowExt::set_resizable (&window, false);
 
     //Main Grid
@@ -119,6 +119,7 @@ fn ui (app: &gtk::Application) {
     //shorten url button
     let shorten_url_button = gtk::Button::new_with_label ("Shorten URL!");
     shorten_url_button.set_margin_top (30);
+    shorten_url_button.get_style_context().map(|c| c.add_class("suggested-action"));
 
     //short url label
     let short_url_label = gtk::Label::new ("");
