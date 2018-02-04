@@ -14,9 +14,7 @@ use gtk::GridExt;
 use urlshortener::{Provider, UrlShortener};
 
 struct HeaderUi {
-    headerbar: gtk::HeaderBar,
-    headerbar_protocol_switch: gtk::Switch,
-    headerbar_protocol_label: gtk::Label,
+    headerbar: gtk::HeaderBar
 }
 
 impl HeaderUi {
@@ -24,17 +22,9 @@ impl HeaderUi {
         let headerbar = gtk::HeaderBar::new ();
         headerbar.set_title ("Srtnr");
         headerbar.set_show_close_button (true);
-
-        let headerbar_protocol_switch = gtk::Switch::new();
-        let headerbar_protocol_label = gtk::Label::new_with_mnemonic (Some ("Using http"));
-
-        headerbar.pack_end (&headerbar_protocol_switch);
-        headerbar.pack_end (&headerbar_protocol_label);
-
+        
         HeaderUi {
             headerbar,
-            headerbar_protocol_switch,
-            headerbar_protocol_label,
         }
     }
 }
@@ -48,8 +38,6 @@ fn ui (app: &gtk::Application) {
 
     //headerbar
     let headerbar = HeaderUi::new ();
-    let headerbar_protocol_switch = headerbar.headerbar_protocol_switch;
-    let headerbar_protocol_label = headerbar.headerbar_protocol_label;
     window.set_titlebar (&headerbar.headerbar);
 
     //window size control
@@ -75,14 +63,14 @@ fn ui (app: &gtk::Application) {
     input_group_grid.set_halign (gtk::Align::Fill);
 
     
-    let protocol_label = gtk::Label::new_with_mnemonic (Some ("Full Url:"));
+    let url_label = gtk::Label::new_with_mnemonic (Some ("Full Url:"));
     let full_url_entry = gtk::Entry::new ();
     let entry_clone = full_url_entry.clone ();
-    GridExt::attach (&input_group_grid, &protocol_label, 0, 0, 1, 1);
+    GridExt::attach (&input_group_grid, &url_label, 0, 0, 1, 1);
     GridExt::attach_next_to (
         &input_group_grid,
         &entry_clone,
-        &protocol_label,
+        &url_label,
         gtk::PositionType::Right,
         5,
         1,
@@ -130,10 +118,6 @@ fn ui (app: &gtk::Application) {
     let label_clone = short_url_label.clone();
     let entry_clone2 = entry_clone.clone();
     let input_group_grid_clone = input_group_grid.clone();
-    let protocol_label_clone = protocol_label.clone();
-    let protocol_label_clone2 = protocol_label.clone();
-
-    let header_label_clone = headerbar_protocol_label.clone();
 
     let display = window.get_display ().unwrap ();
     let gclipboard = gtk::Clipboard::get_default (&display).unwrap ();
@@ -144,22 +128,11 @@ fn ui (app: &gtk::Application) {
         println!("{}", url);
         gtk::EntryExt::set_text (&full_url_entry, &url);
     }
-    headerbar_protocol_switch.connect_property_active_notify(move |headerbar_protocol_switch| {
-        if headerbar_protocol_switch.get_active() {
-            protocol_label_clone.set_text("https://");
-            header_label_clone.set_text("Using https");
-            
-            
-        } else {
-            protocol_label_clone.set_text("http://");
-            header_label_clone.set_text("Using http");
-        }
-    });
 
     let window_clone = window.clone ();
 
     shorten_url_button.connect_clicked (move |_| {
-        let protocol_str = gtk::LabelExt::get_text (&protocol_label_clone2).unwrap ();
+        let protocol_str = "http://".to_string ();
         let url_entry_text = gtk::EntryExt::get_text (&entry_clone2).unwrap ();
         let is_valid_url = validator::validate_url (&url_entry_text);
         let mut full_url  =  protocol_str + &url_entry_text;
