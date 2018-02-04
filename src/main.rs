@@ -75,7 +75,7 @@ fn ui (app: &gtk::Application) {
     input_group_grid.set_halign (gtk::Align::Fill);
 
     
-    let protocol_label = gtk::Label::new_with_mnemonic (Some ("http://"));
+    let protocol_label = gtk::Label::new_with_mnemonic (Some ("Full Url:"));
     let full_url_entry = gtk::Entry::new ();
     let entry_clone = full_url_entry.clone ();
     GridExt::attach (&input_group_grid, &protocol_label, 0, 0, 1, 1);

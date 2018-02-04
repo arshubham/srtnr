@@ -22,6 +22,8 @@
 ### Requiered Dependencies
 
 ```
+- elementary-sdk
+- libnotify-dev
 - pkgconf
 - libssl-dev
 - rustc
