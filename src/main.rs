@@ -7,34 +7,15 @@ extern crate validator;
 extern crate gdk_pixbuf;
 extern crate glib;
 
+mod headerbar;
+
 use gtk::prelude::*;
 use gio::prelude::*;
 use gtk::GridExt;
-use gtk::{HeaderBarExt, WidgetExt, StyleContextExt};
+use gtk::{WidgetExt, StyleContextExt};
 use urlshortener::{Provider, UrlShortener};
 
-struct HeaderUi {
-    headerbar: gtk::HeaderBar,
-    preferences_button: gtk::Button,
-}
-
-impl HeaderUi {
-    fn new () -> HeaderUi {
-        let headerbar = gtk::HeaderBar::new ();
-        headerbar.set_title ("Srtnr");
-        headerbar.set_show_close_button (true);
-
-        let preferences_button = gtk::Button::new_from_icon_name ("preferences-other", gtk::IconSize::LargeToolbar.into ());
-
-        headerbar.pack_end (&preferences_button);
-
-        headerbar.get_style_context().map(|c| c.add_class("flat"));
-        HeaderUi {
-            headerbar,
-            preferences_button,
-        }
-    }
-}
+use headerbar::HeaderUi;
 
 fn ui (app: &gtk::Application) {
 
@@ -70,7 +51,6 @@ fn ui (app: &gtk::Application) {
     input_group_grid.set_margin_end (0);
     input_group_grid.set_column_homogeneous (true);
     input_group_grid.set_halign (gtk::Align::Fill);
-
     
     let url_label = gtk::Label::new_with_mnemonic (Some ("Full Url:"));
     let full_url_entry = gtk::Entry::new ();
@@ -85,7 +65,7 @@ fn ui (app: &gtk::Application) {
         1,
     );
 
-    
+    gtk::EntryExt::set_activates_default (&full_url_entry, true);
 
     //Radio Buttons
     let goo_gl_radiobutton = gtk::RadioButton::new_with_label ("goo.gl");
