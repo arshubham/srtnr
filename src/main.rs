@@ -7,11 +7,7 @@ extern crate validator;
 extern crate gdk_pixbuf;
 extern crate glib;
 
-use gtk::prelude::*;
-use gio::prelude::*;
-use gtk::GridExt;
-use gtk::{WidgetExt, StyleContextExt};
-use self::urlshortener::{Provider, UrlShortener};
+use gio::prelude::*;    
 mod buildui;
 
 fn main () {

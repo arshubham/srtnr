@@ -11,7 +11,6 @@ mod headerbar;
 
 use std;
 use gtk::prelude::*;
-use gio::prelude::*;
 use gtk::GridExt;
 use gtk::{WidgetExt, StyleContextExt};
 use self::urlshortener::{Provider, UrlShortener};
@@ -27,7 +26,7 @@ use self::headerbar::HeaderUi;
 
     //headerbar
     let headerbar = HeaderUi::new ();
-    let headerbar_preferences_button = headerbar.preferences_button;
+    let _headerbar_preferences_button = headerbar.preferences_button;
     window.set_titlebar (&headerbar.headerbar);
 
 
