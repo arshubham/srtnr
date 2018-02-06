@@ -114,10 +114,9 @@ use self::headerbar::HeaderUi;
     let display = window.get_display ().unwrap ();
     let gclipboard = gtk::Clipboard::get_default (&display).unwrap ();
     let url = gtk::ClipboardExt::wait_for_text (&gclipboard).unwrap ();
-    let is_valid_url = validator::validate_url (&url);
+    let is_valid_url = validate_url (&url);
     
     if url.len() > 0 && is_valid_url {
-        println!("{}", url);
         gtk::EntryExt::set_text (&full_url_entry, &url);
     }
 
@@ -126,7 +125,7 @@ use self::headerbar::HeaderUi;
     shorten_url_button.connect_clicked (move |_| {
         let protocol_str = "http://".to_string ();
         let url_entry_text = gtk::EntryExt::get_text (&entry_clone2).unwrap ();
-        let is_valid_url = validator::validate_url (&url_entry_text);
+        let is_valid_url = validate_url (&url_entry_text);
         let mut full_url  =  protocol_str + &url_entry_text;
         if is_valid_url {         
             full_url = url_entry_text;
@@ -264,4 +263,8 @@ use self::headerbar::HeaderUi;
     window.show_all ();
 
  
+}
+
+fn validate_url (url: &String) -> bool {
+    validator::validate_url (&url)
 }
