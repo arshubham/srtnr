@@ -67,35 +67,16 @@ use self::headerbar::HeaderUi;
 
     gtk::EntryExt::set_activates_default (&full_url_entry, true);
 
-    //Radio Buttons
-    let goo_gl_radiobutton = gtk::RadioButton::new_with_label ("goo.gl");
-    goo_gl_radiobutton.set_margin_top (30);
-    
-    let bit_ly_radiobutton = gtk::RadioButton::new_with_label_from_widget (&goo_gl_radiobutton, "bit.ly");
-    bit_ly_radiobutton.set_margin_top (30);
+    let combobox = gtk::ComboBoxText::new ();
+    gtk::ComboBoxTextExt::append_text (&combobox, "goo.gl");
+    gtk::ComboBoxTextExt::append_text (&combobox, "bit.ly");
+    gtk::ComboBoxTextExt::append_text (&combobox, "is.gd");
+    gtk::ComboBoxTextExt::append_text (&combobox, "bam.bz");
+    gtk::ComboBoxTextExt::append_text (&combobox, "tny.im");
+    gtk::ComboBoxTextExt::append_text (&combobox, "hmm.rs");
+    gtk::ComboBoxExt::set_active (&combobox, 0);
 
-    let is_gd_radiobutton = gtk::RadioButton::new_with_label_from_widget (&goo_gl_radiobutton, "is.gd");
-    let bam_bz_radiobutton = gtk::RadioButton::new_with_label_from_widget (&goo_gl_radiobutton, "bam.bz");
-    let tny_im_radiobutton = gtk::RadioButton::new_with_label_from_widget (&goo_gl_radiobutton, "tny.im");
-    let hmm_rs_radiobutton = gtk::RadioButton::new_with_label_from_widget (&goo_gl_radiobutton, "hmm.rs");
-
-    //Radio Button Clones
-    let goo_gl_rb_clone = goo_gl_radiobutton.clone();
-    let bit_ly_rb_clone = bit_ly_radiobutton.clone();
-    let is_gd_rb_clone = is_gd_radiobutton.clone();
-    let bam_bz_rb_clone = bam_bz_radiobutton.clone();
-    let tny_im_rb_clone = tny_im_radiobutton.clone();
-    let hmm_rs_rb_clone = hmm_rs_radiobutton.clone();
-
-    let model_store =  gtk::ListStore::new(&[gtk::Type::String]);
-    model_store.insert_with_values(None, &[0], &[&"String1"]);
-    model_store.insert_with_values(None, &[0], &[&"String2"]);
-    model_store.insert_with_values(None, &[0], &[&"String3"]);
-    model_store.insert_with_values(None, &[0], &[&"String4"]);
-    let combobox = gtk::ComboBox::new ();
-    combobox.set_model(Some(&model_store));
-    combobox.set_active(0);
-
+    let combobox_clone = combobox.clone ();
     //shorten url button
     let shorten_url_button = gtk::Button::new_with_label ("Shorten URL!");
     shorten_url_button.set_margin_top (30);
@@ -143,8 +124,8 @@ use self::headerbar::HeaderUi;
         
 
         let us = UrlShortener::new ().unwrap ();
-
-        if gtk::ToggleButtonExt::get_active (&goo_gl_radiobutton) {
+        let selected_index = gtk::ComboBoxExt::get_active (&combobox_clone);
+        if selected_index == 0 {
             let short_url = us.generate (
                 full_url,
                 &urlshortener::Provider::GooGl {
@@ -156,16 +137,13 @@ use self::headerbar::HeaderUi;
                 Ok (short_url) => {
                     label_clone.set_label (&short_url);
                     gclipboard.set_text (&short_url);
-
-                    // TODO: Short_url in notification
-                    // n.update("Short Url Copied into clipboard", None , None).unwrap();
                     n.show ().unwrap ();         
                 },
                 Err (error) => {
                     label_clone.set_label (&std::string::ToString::to_string (&error));
                 }
             };
-        } else if gtk::ToggleButtonExt::get_active(&bit_ly_radiobutton) {
+        } else if selected_index == 1 {
             let short_url = us.generate(
                 full_url,
                 &urlshortener::Provider::BitLy {
@@ -183,7 +161,7 @@ use self::headerbar::HeaderUi;
                 }
             };
         
-        } else if gtk::ToggleButtonExt::get_active(&bam_bz_radiobutton) {
+        } else if selected_index == 2 {
             let short_url = us.generate(full_url, &Provider::BamBz);
             let _short_url = match short_url {
                 Ok (short_url) => {
@@ -195,7 +173,7 @@ use self::headerbar::HeaderUi;
                     label_clone.set_label(&std::string::ToString::to_string(&error));
                 }
             };
-        } else if gtk::ToggleButtonExt::get_active (&is_gd_radiobutton) {
+        } else if selected_index == 3 {
             let short_url = us.generate(full_url, &Provider::IsGd);
             let _short_url = match short_url {
                 Ok(short_url) => {
@@ -207,8 +185,8 @@ use self::headerbar::HeaderUi;
                     label_clone.set_label(&std::string::ToString::to_string(&error));
                 }
             };
-        } else if gtk::ToggleButtonExt::get_active(&hmm_rs_radiobutton) {
-            let short_url = us.generate(full_url, &Provider::HmmRs);
+        } else if selected_index == 4 {
+            let short_url = us.generate(full_url, &Provider::TnyIm);
             let _short_url = match short_url {
                  Ok(short_url) => {
                     label_clone.set_label(&short_url);
@@ -219,8 +197,8 @@ use self::headerbar::HeaderUi;
                     label_clone.set_label(&std::string::ToString::to_string(&error));
                 }
             };
-        } else if gtk::ToggleButtonExt::get_active(&tny_im_radiobutton) {
-            let short_url = us.generate(full_url, &Provider::TnyIm);
+        } else if selected_index == 5 {
+            let short_url = us.generate(full_url, &Provider::HmmRs);
             let _short_url = match short_url {
                 Ok(short_url) => {
                     label_clone.set_label(&short_url);
@@ -235,26 +213,9 @@ use self::headerbar::HeaderUi;
             libnotify::uninit();
     });
 
-    // RadioButton Grid
-    let rb_grid = gtk::Grid::new ();
-    rb_grid.set_column_spacing (20);
-    rb_grid.set_row_spacing (30);
-    rb_grid.set_margin_start (0);
-    rb_grid.set_margin_end (0);
-    rb_grid.set_column_homogeneous (true);
-    rb_grid.set_halign (gtk::Align::Center);
-
-    GridExt::attach (&rb_grid, &goo_gl_rb_clone, 1, 1, 1, 1);
-    GridExt::attach (&rb_grid, &bit_ly_rb_clone, 2, 1, 1, 1);
-
-    GridExt::attach(&rb_grid, &is_gd_rb_clone, 0, 2, 1, 1);
-    GridExt::attach(&rb_grid, &bam_bz_rb_clone, 1, 2, 1, 1);
-    GridExt::attach(&rb_grid, &tny_im_rb_clone, 2, 2, 1, 1);
-    GridExt::attach(&rb_grid, &hmm_rs_rb_clone, 3, 2, 1, 1);
-
     GridExt::attach (&main_grid, &input_group_grid_clone, 0, 0, 7, 1);
 
-    GridExt::attach (&main_grid, &rb_grid, 0, 2, 7, 2);
+    GridExt::attach (&main_grid, &combobox, 0, 2, 7, 2);
 
     GridExt::attach (&main_grid, &shorten_url_button, 2, 4, 3, 1);
     GridExt::attach (&main_grid, &short_url_label, 0, 5, 7, 1);
