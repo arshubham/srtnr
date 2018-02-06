@@ -47,6 +47,7 @@ use self::headerbar::HeaderUi;
     //Input Grid
     let input_group_grid = gtk::Grid::new ();
     input_group_grid.set_column_spacing (0);
+    input_group_grid.set_row_spacing (30);
     input_group_grid.set_margin_start (0);
     input_group_grid.set_margin_end (0);
     input_group_grid.set_column_homogeneous (true);
@@ -66,7 +67,8 @@ use self::headerbar::HeaderUi;
     );
 
     gtk::EntryExt::set_activates_default (&full_url_entry, true);
-
+    
+    let provider_label = gtk::Label::new_with_mnemonic (Some ("Provider:"));
     let combobox = gtk::ComboBoxText::new ();
     gtk::ComboBoxTextExt::append_text (&combobox, "goo.gl");
     gtk::ComboBoxTextExt::append_text (&combobox, "bit.ly");
@@ -75,6 +77,15 @@ use self::headerbar::HeaderUi;
     gtk::ComboBoxTextExt::append_text (&combobox, "tny.im");
     gtk::ComboBoxTextExt::append_text (&combobox, "hmm.rs");
     gtk::ComboBoxExt::set_active (&combobox, 0);
+    GridExt::attach (&input_group_grid, &provider_label, 0, 1, 1, 1);
+    GridExt::attach_next_to (
+        &input_group_grid,
+        &combobox,
+        &provider_label,
+        gtk::PositionType::Right,
+        2,
+        1,
+    );
 
     let combobox_clone = combobox.clone ();
     //shorten url button
@@ -213,9 +224,7 @@ use self::headerbar::HeaderUi;
             libnotify::uninit();
     });
 
-    GridExt::attach (&main_grid, &input_group_grid_clone, 0, 0, 7, 1);
-
-    GridExt::attach (&main_grid, &combobox, 0, 2, 7, 2);
+    GridExt::attach (&main_grid, &input_group_grid_clone, 0, 0, 7, 2);
 
     GridExt::attach (&main_grid, &shorten_url_button, 2, 4, 3, 1);
     GridExt::attach (&main_grid, &short_url_label, 0, 5, 7, 1);
