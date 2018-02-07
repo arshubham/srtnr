@@ -18,7 +18,7 @@ impl HeaderUi {
 
         HeaderBarExt::pack_end (&headerbar, &preferences_button);
 
-        WidgetExt::get_style_context(&headerbar).map(|c| c.add_class("flat"));
+        WidgetExt::get_style_context (&headerbar).map (|c| c.add_class("flat"));
 
         HeaderUi {
             headerbar,

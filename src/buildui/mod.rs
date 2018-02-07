@@ -35,6 +35,7 @@ use self::headerbar::HeaderUi;
     window.set_size_request (650, 450);
     GtkWindowExt::set_resizable (&window, false);
 
+
     //Main Grid
     let main_grid = Grid::new ();
     GridExt::set_row_spacing (&main_grid, 12);
@@ -87,21 +88,24 @@ use self::headerbar::HeaderUi;
         1,
     );
 
-    let combobox_clone = combobox.clone ();
     //shorten url button
     let shorten_url_button = Button::new_with_label ("Shorten URL!");
-    WidgetExt::set_margin_top (&shorten_url_button ,30);
-    WidgetExt::get_style_context(&shorten_url_button).map(|c| c.add_class("suggested-action"));
+    WidgetExt::set_margin_top (&shorten_url_button, 30);
+    WidgetExt::get_style_context (&shorten_url_button).map (|c| c.add_class("suggested-action"));
+    WidgetExt::set_can_default (&shorten_url_button, true);
 
     //short url label
     let short_url_label = gtk::Label::new ("");
     WidgetExt::set_margin_top (&short_url_label, 20);
     WidgetExt::set_halign (&short_url_label, Align::Center);
     LabelExt::set_selectable (&short_url_label, true);
+    GtkWindowExt::set_default (&window, &shorten_url_button);
 
-    let label_clone = short_url_label.clone();
-    let entry_clone2 = entry_clone.clone();
-    let input_group_grid_clone = input_group_grid.clone();
+    //Clones
+    let combobox_clone = combobox.clone ();
+    let short_label_clone = short_url_label.clone ();
+    let entry_clone2 = entry_clone.clone ();
+    let input_group_grid_clone = input_group_grid.clone ();
 
     let display = window.get_display ().unwrap ();
     let gclipboard = Clipboard::get_default (&display).unwrap ();
@@ -123,15 +127,15 @@ use self::headerbar::HeaderUi;
             full_url = url_entry_text;
         }
         
-        libnotify::init("Srtnr").unwrap();
-        let n = libnotify::Notification::new("Short Url Copied into clipboard.",
+        libnotify::init ("Srtnr").unwrap ();
+        let n = libnotify::Notification::new ("Short Url Copied into clipboard.",
                                          None,
                                          None);
         
         libnotify::Notification::set_app_name (&n, None);
 
         let display = window_clone.get_display ().unwrap ();
-        let gclipboard = gtk::Clipboard::get_default (&display).unwrap ();
+        let gclipboard = Clipboard::get_default (&display).unwrap ();
         
 
         let us = UrlShortener::new ().unwrap ();
@@ -148,17 +152,17 @@ use self::headerbar::HeaderUi;
             
             let _short_url = match short_url {
                 Ok (short_url) => {
-                    LabelExt::set_label (&label_clone, &short_url);
+                    LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
                     n.show ().unwrap ();         
                 },
                 Err (error) => {
-                    LabelExt::set_label (&label_clone, &std::string::ToString::to_string (&error));
+                    LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
                 }
             };
         }, 
         1 => {
-            let short_url = us.generate(
+            let short_url = us.generate (
                 full_url,
                 &urlshortener::Provider::BitLy {
                     token: bitly_token.to_owned(),
@@ -166,75 +170,75 @@ use self::headerbar::HeaderUi;
             );
             let _short_url = match short_url {
                 Ok (short_url) => {
-                    LabelExt::set_label (&label_clone, &short_url);
+                    LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show().unwrap();
+                    n.show ().unwrap ();
                 },
                 Err (error) => {
-                    LabelExt::set_label (&label_clone, &std::string::ToString::to_string (&error));
+                    LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
                 }
             };
         
         } ,
         2 =>  {
-            let short_url = us.generate(full_url, &Provider::BamBz);
+            let short_url = us.generate (full_url, &Provider::IsGd);
             let _short_url = match short_url {
                 Ok (short_url) => {
-                    LabelExt::set_label (&label_clone, &short_url);
+                    LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show().unwrap();
+                    n.show ().unwrap ();
                 },
                 Err (error) => { 
-                    LabelExt::set_label (&label_clone, &std::string::ToString::to_string (&error));
+                    LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
                 }
             };
         },
         
         3 => {
-            let short_url = us.generate(full_url, &Provider::IsGd);
+            let short_url = us.generate (full_url, &Provider::BamBz);
             let _short_url = match short_url {
-                Ok(short_url) => {
-                    LabelExt::set_label (&label_clone, &short_url);
+                Ok (short_url) => {
+                    LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show().unwrap();
+                    n.show ().unwrap ();
                 },
-                Err(error) => {
-                    LabelExt::set_label (&label_clone, &std::string::ToString::to_string (&error));
+                Err (error) => {
+                    LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
                 }
             };
         } ,
         
         4 => {
-            let short_url = us.generate(full_url, &Provider::TnyIm);
+            let short_url = us.generate (full_url, &Provider::TnyIm);
             let _short_url = match short_url {
-                 Ok(short_url) => {
-                    LabelExt::set_label (&label_clone, &short_url);
+                 Ok (short_url) => {
+                    LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show().unwrap();
+                    n.show ().unwrap ();
                 },
-                Err(error) => {
-                    LabelExt::set_label (&label_clone, &std::string::ToString::to_string (&error));
+                Err (error) => {
+                    LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
                 }
             };
         } 
         
         5 => {
-            let short_url = us.generate(full_url, &Provider::HmmRs);
+            let short_url = us.generate (full_url, &Provider::HmmRs);
             let _short_url = match short_url {
-                Ok(short_url) => {
-                    LabelExt::set_label (&label_clone, &short_url);
+                Ok (short_url) => {
+                    LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show().unwrap();
+                    n.show ().unwrap ();
                 },
-                Err(error) => {
-                    LabelExt::set_label (&label_clone, &std::string::ToString::to_string (&error));
+                Err (error) => {
+                    LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
                 }
             };
         },
 
-        _ =>  label_clone.set_label("Please choose a provider"),
+        _ =>  short_label_clone.set_label ("Please choose a provider"),
         }
-            libnotify::uninit();
+            libnotify::uninit ();
     });
 
 

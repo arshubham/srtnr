@@ -16,7 +16,7 @@ fn main () {
     ApplicationExt::connect_startup (&app, |app| {
         buildui::ui (&app);
     });
-    ApplicationExt::connect_activate (&app, |_| {});
+    ApplicationExt::connect_activate (&app, |_| { });
 
     // Error
     app.run (&std::env::args ().collect::<Vec<_>> ());
