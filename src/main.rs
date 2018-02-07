@@ -1,10 +1,6 @@
 extern crate gdk;
 extern crate gio;
 extern crate gtk;
-extern crate urlshortener;
-extern crate libnotify;
-extern crate validator;
-extern crate gdk_pixbuf;
 extern crate glib;
 
 use gio::prelude::*;    
