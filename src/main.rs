@@ -11,9 +11,9 @@ use gio::prelude::*;
 mod buildui;
 
 fn main () {
-    let app = gtk::Application::new ("com.github.arshubham.srtnr", gio::ApplicationFlags::empty())
+    let app = gtk::Application::new ("com.github.arshubham.srtnr", gio::ApplicationFlags::empty ())
         .expect ("Failed to create Application");
-
+    
     app.connect_startup (|app| {
         buildui::ui (&app);
     });

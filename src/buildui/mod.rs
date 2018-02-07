@@ -136,7 +136,9 @@ use self::headerbar::HeaderUi;
 
         let us = UrlShortener::new ().unwrap ();
         let selected_index = gtk::ComboBoxExt::get_active (&combobox_clone);
-        if selected_index == 0 {
+
+        match selected_index {
+        0 => {
             let short_url = us.generate (
                 full_url,
                 &urlshortener::Provider::GooGl {
@@ -154,7 +156,8 @@ use self::headerbar::HeaderUi;
                     label_clone.set_label (&std::string::ToString::to_string (&error));
                 }
             };
-        } else if selected_index == 1 {
+        }, 
+        1 => {
             let short_url = us.generate(
                 full_url,
                 &urlshortener::Provider::BitLy {
@@ -172,7 +175,8 @@ use self::headerbar::HeaderUi;
                 }
             };
         
-        } else if selected_index == 2 {
+        } ,
+        2 =>  {
             let short_url = us.generate(full_url, &Provider::BamBz);
             let _short_url = match short_url {
                 Ok (short_url) => {
@@ -184,7 +188,9 @@ use self::headerbar::HeaderUi;
                     label_clone.set_label(&std::string::ToString::to_string(&error));
                 }
             };
-        } else if selected_index == 3 {
+        },
+        
+        3 => {
             let short_url = us.generate(full_url, &Provider::IsGd);
             let _short_url = match short_url {
                 Ok(short_url) => {
@@ -196,7 +202,9 @@ use self::headerbar::HeaderUi;
                     label_clone.set_label(&std::string::ToString::to_string(&error));
                 }
             };
-        } else if selected_index == 4 {
+        } ,
+        
+        4 => {
             let short_url = us.generate(full_url, &Provider::TnyIm);
             let _short_url = match short_url {
                  Ok(short_url) => {
@@ -208,7 +216,9 @@ use self::headerbar::HeaderUi;
                     label_clone.set_label(&std::string::ToString::to_string(&error));
                 }
             };
-        } else if selected_index == 5 {
+        } 
+        
+        5 => {
             let short_url = us.generate(full_url, &Provider::HmmRs);
             let _short_url = match short_url {
                 Ok(short_url) => {
@@ -220,7 +230,10 @@ use self::headerbar::HeaderUi;
                     label_clone.set_label(&std::string::ToString::to_string(&error));
                 }
             };
-        } 
+        },
+
+        _ =>  label_clone.set_label("Please choose a provider"),
+        }
             libnotify::uninit();
     });
 
