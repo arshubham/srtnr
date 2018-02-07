@@ -1,23 +1,25 @@
 extern crate gtk;
 
-use gtk::{WidgetExt, StyleContextExt};
+use gtk::{HeaderBar, IconSize, Button};
+use gtk::{WidgetExt, StyleContextExt, HeaderBarExt};
 
 pub struct HeaderUi {
-    pub headerbar: gtk::HeaderBar,
-    pub preferences_button: gtk::Button,
+    pub headerbar: HeaderBar,
+    pub preferences_button: Button,
 }
 
 impl HeaderUi {
     pub fn new () -> HeaderUi {
-        let headerbar = gtk::HeaderBar::new ();
-        gtk::HeaderBarExt::set_title (&headerbar, "Srtnr");
-        gtk::HeaderBarExt::set_show_close_button (&headerbar, true);
+        let headerbar = HeaderBar::new ();
+        HeaderBarExt::set_title (&headerbar, "Srtnr");
+        HeaderBarExt::set_show_close_button (&headerbar, true);
 
-        let preferences_button = gtk::Button::new_from_icon_name ("preferences-other", gtk::IconSize::LargeToolbar.into ());
+        let preferences_button = Button::new_from_icon_name ("preferences-other", IconSize::LargeToolbar.into ());
 
-        gtk::HeaderBarExt::pack_end (&headerbar, &preferences_button);
+        HeaderBarExt::pack_end (&headerbar, &preferences_button);
 
-        headerbar.get_style_context().map(|c| c.add_class("flat"));
+        WidgetExt::get_style_context(&headerbar).map(|c| c.add_class("flat"));
+
         HeaderUi {
             headerbar,
             preferences_button,

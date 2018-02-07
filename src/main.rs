@@ -3,17 +3,21 @@ extern crate gio;
 extern crate gtk;
 extern crate glib;
 
-use gio::prelude::*;    
+use gio::prelude::*;
+use gtk::Application;
+use gio::{ApplicationExt, ApplicationFlags};    
+
 mod buildui;
 
 fn main () {
-    let app = gtk::Application::new ("com.github.arshubham.srtnr", gio::ApplicationFlags::empty ())
+    let app = Application::new ("com.github.arshubham.srtnr", ApplicationFlags::empty ())
         .expect ("Failed to create Application");
     
-    app.connect_startup (|app| {
+    ApplicationExt::connect_startup (&app, |app| {
         buildui::ui (&app);
     });
-    app.connect_activate (|_| {});
+    ApplicationExt::connect_activate (&app, |_| {});
 
+    // Error
     app.run (&std::env::args ().collect::<Vec<_>> ());
 }
