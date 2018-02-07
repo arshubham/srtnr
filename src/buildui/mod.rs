@@ -13,6 +13,7 @@ use std;
 use gtk::prelude::*;
 use gtk::{Grid, Application, ApplicationWindow, Align, Label, Entry, ComboBoxText, Button, Clipboard};
 use gtk::{GridExt, GtkWindowExt, WidgetExt, StyleContextExt, EntryExt, ComboBoxTextExt, ClipboardExt, LabelExt};
+use gio::Settings;
 use self::urlshortener::{Provider, UrlShortener};
 
 use self::headerbar::HeaderUi;
@@ -69,6 +70,9 @@ use self::headerbar::HeaderUi;
 
     EntryExt::set_activates_default (&full_url_entry, true);
     
+    let settings = gio::Settings::new ("com.github.arshubham.srtnr");
+    let default_provider = gio::SettingsExt::get_int (&settings, "default-provider");
+
     let provider_label = Label::new_with_mnemonic (Some ("Provider:"));
     let combobox = ComboBoxText::new ();
     ComboBoxTextExt::append_text (&combobox, "goo.gl");
@@ -77,7 +81,7 @@ use self::headerbar::HeaderUi;
     ComboBoxTextExt::append_text (&combobox, "bam.bz");
     ComboBoxTextExt::append_text (&combobox, "tny.im");
     ComboBoxTextExt::append_text (&combobox, "hmm.rs");
-    ComboBoxExt::set_active (&combobox, 0);
+    ComboBoxExt::set_active (&combobox, default_provider);
     GridExt::attach (&input_group_grid, &provider_label, 0, 1, 1, 1);
     GridExt::attach_next_to (
         &input_group_grid,
@@ -126,7 +130,7 @@ use self::headerbar::HeaderUi;
         if is_valid_url {         
             full_url = url_entry_text;
         }
-        
+        let mut successful = false;
         libnotify::init ("Srtnr").unwrap ();
         let n = libnotify::Notification::new ("Short Url Copied into clipboard.",
                                          None,
@@ -154,7 +158,8 @@ use self::headerbar::HeaderUi;
                 Ok (short_url) => {
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show ().unwrap ();         
+                    n.show ().unwrap ();
+                    successful = true;         
                 },
                 Err (error) => {
                     LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
@@ -173,6 +178,7 @@ use self::headerbar::HeaderUi;
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
                     n.show ().unwrap ();
+                    successful = true;
                 },
                 Err (error) => {
                     LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
@@ -187,6 +193,7 @@ use self::headerbar::HeaderUi;
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
                     n.show ().unwrap ();
+                    successful = true;
                 },
                 Err (error) => { 
                     LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
@@ -201,6 +208,7 @@ use self::headerbar::HeaderUi;
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
                     n.show ().unwrap ();
+                    successful = true;
                 },
                 Err (error) => {
                     LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
@@ -215,6 +223,7 @@ use self::headerbar::HeaderUi;
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
                     n.show ().unwrap ();
+                    successful = true;
                 },
                 Err (error) => {
                     LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
@@ -229,6 +238,7 @@ use self::headerbar::HeaderUi;
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
                     n.show ().unwrap ();
+                    successful = true;
                 },
                 Err (error) => {
                     LabelExt::set_label (&short_label_clone, &std::string::ToString::to_string (&error));
@@ -238,7 +248,13 @@ use self::headerbar::HeaderUi;
 
         _ =>  short_label_clone.set_label ("Please choose a provider"),
         }
-            libnotify::uninit ();
+            
+        libnotify::uninit ();
+
+        if successful {
+            gio::SettingsExt::set_int (&settings, "default-provider", selected_index);
+        }
+        
     });
 
 

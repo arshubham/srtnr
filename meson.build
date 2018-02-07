@@ -22,6 +22,7 @@ subdir('data')
 cargo = find_program('cargo', required: false)
 gresource = find_program('glib-compile-resources', required: false)
 cargo_script = find_program('scripts/cargo.sh')
+meson.add_install_script('meson/post_install.py')
 
 cargo_release = custom_target('cargo-build',
                         build_by_default: true,

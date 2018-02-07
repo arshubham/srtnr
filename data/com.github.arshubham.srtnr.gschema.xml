@@ -1,0 +1,9 @@
+<schemalist>
+    <schema id="com.github.arshubham.srtnr" path="/com/github/arshubham/srtnr/" gettext-domain="com.github.arshubham.srtnr">
+        <key name="default-provider" type="i">
+            <default>0</default>
+            <summary>Default short url provider</summary>
+            <description>Default short url provider for Srtnr(Last used).</description>
+        </key>
+    </schema>
+</schemalist>
