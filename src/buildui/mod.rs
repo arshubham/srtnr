@@ -8,15 +8,18 @@ extern crate gdk_pixbuf;
 extern crate glib;
 
 mod headerbar;
+mod prefdialog;
 
 use std;
 use gtk::prelude::*;
-use gtk::{Grid, Application, ApplicationWindow, Align, Label, Entry, ComboBoxText, Button, Clipboard};
+use gtk::{Grid, Application, ApplicationWindow, Align, Label, Entry, ComboBoxText, Button, Clipboard };
 use gtk::{GridExt, GtkWindowExt, WidgetExt, StyleContextExt, EntryExt, ComboBoxTextExt, ClipboardExt, LabelExt};
 use gio::Settings;
+use gio::SettingsExt;
 use self::urlshortener::{Provider, UrlShortener};
 
 use self::headerbar::HeaderUi;
+use self::prefdialog::PrefDialogUi;
 
  pub fn ui (app: &Application) {
 
@@ -27,8 +30,14 @@ use self::headerbar::HeaderUi;
 
     //headerbar
     let headerbar = HeaderUi::new ();
-    let _headerbar_preferences_button = headerbar.preferences_button;
+    let headerbar_preferences_button = headerbar.preferences_button;
     GtkWindowExt::set_titlebar (&window, &headerbar.headerbar);
+
+    let win_c = window.clone ();
+    headerbar_preferences_button.connect_clicked (move |_| {
+        let pref = PrefDialogUi::new (&win_c);
+        PrefDialogUi::run (&pref);
+    });
 
     //window size control
     GtkWindowExt::set_default_size (&window, 650, 450);
@@ -70,8 +79,8 @@ use self::headerbar::HeaderUi;
 
     EntryExt::set_activates_default (&full_url_entry, true);
     
-    let settings = gio::Settings::new ("com.github.arshubham.srtnr");
-    let default_provider = gio::SettingsExt::get_int (&settings, "default-provider");
+    let settings = Settings::new ("com.github.arshubham.srtnr");
+    let default_provider = SettingsExt::get_int (&settings, "default-provider");
 
     let provider_label = Label::new_with_mnemonic (Some ("Provider:"));
     let combobox = ComboBoxText::new ();
@@ -252,7 +261,7 @@ use self::headerbar::HeaderUi;
         libnotify::uninit ();
 
         if successful {
-            gio::SettingsExt::set_int (&settings, "default-provider", selected_index);
+            SettingsExt::set_int (&settings, "default-provider", selected_index);
         }
         
     });
