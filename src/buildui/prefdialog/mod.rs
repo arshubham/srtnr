@@ -30,17 +30,6 @@ impl PrefDialogUi {
     WidgetExt::set_halign (&dark_setting_label, gtk::Align::Start); 
     let dark_setting_switch = Switch::new ();
 
-    // let settings = Settings::new ("com.github.arshubham.srtnr");
-    // let dark_mode_value = SettingsExt::get_boolean (&settings, "use-dark-theme");
-//     
-//         if settings.get_property_gtk_application_prefer_dark_theme() {
-//             settings.set_property_gtk_application_prefer_dark_theme(false);
-//         } else {
-//             settings.set_property_gtk_application_prefer_dark_theme(true);
-//         }
-//         let dark_mode_value = settings.get_property_gtk_application_prefer_dark_theme();
-//         Inhibit(false)
-// });
     let settings = Settings::new ("com.github.arshubham.srtnr");
     SwitchExt::set_active (&dark_setting_switch, SettingsExt::get_boolean (&settings, "use-dark-theme"));
     let dark_settings = gtk::Settings::get_default ().unwrap ();
