@@ -147,8 +147,8 @@ use self::prefdialog::PrefDialogUi;
         let mut successful = false;
         libnotify::init ("Srtnr").unwrap ();
         let n = libnotify::Notification::new ("Short Url Copied into clipboard.",
-                                         None,
-                                         None);
+                                        None,
+                                        None);
         
         libnotify::Notification::set_app_name (&n, None);
 

@@ -24,11 +24,13 @@ impl PrefDialogUi {
     WidgetExt::set_margin_top (&content_grid, 20);
     WidgetExt::set_margin_start (&content_grid, 10);
     WidgetExt::set_margin_end (&content_grid, 30);
+    GtkWindowExt::set_modal (&pref_dialog, true);
 
     let dark_setting_box = Box::new (Orientation::Horizontal, 5);
     let dark_setting_label = Label::new_with_mnemonic (Some ("Use Dark Theme"));
     WidgetExt::set_halign (&dark_setting_label, gtk::Align::Start); 
     let dark_setting_switch = Switch::new ();
+
 
     let settings = Settings::new ("com.github.arshubham.srtnr");
     SwitchExt::set_active (&dark_setting_switch, SettingsExt::get_boolean (&settings, "use-dark-theme"));
