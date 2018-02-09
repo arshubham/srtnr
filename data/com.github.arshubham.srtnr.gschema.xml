@@ -5,5 +5,10 @@
             <summary>Default short url provider</summary>
             <description>Default short url provider for Srtnr(Last used).</description>
         </key>
+        <key name="use-dark-theme" type="b">
+			<default>false</default>
+			<summary>Use Dark Theme.</summary>
+			<description>Use Dark Theme.</description>
+</key>
     </schema>
 </schemalist>

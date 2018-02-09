@@ -8,3 +8,4 @@ Type=Application
 StartupNotify=true
 Categories=Utility;
 Keywords=url-shortener;srtnr;short;shortener;url;internet;link;links;hyperlink;
+X-GNOME-UsesNotifications=true
