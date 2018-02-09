@@ -45,6 +45,7 @@ use self::prefdialog::PrefDialogUi;
     window.set_size_request (650, 450);
     GtkWindowExt::set_resizable (&window, false);
 
+    
 
     //Main Grid
     let main_grid = Grid::new ();
@@ -80,6 +81,10 @@ use self::prefdialog::PrefDialogUi;
     EntryExt::set_activates_default (&full_url_entry, true);
     
     let settings = Settings::new ("com.github.arshubham.srtnr");
+
+    let dark_settings = gtk::Settings::get_default ().unwrap ();
+    gtk::SettingsExt::set_property_gtk_application_prefer_dark_theme (&dark_settings, SettingsExt::get_boolean (&settings, "use-dark-theme"));
+    
     let default_provider = SettingsExt::get_int (&settings, "default-provider");
 
     let provider_label = Label::new_with_mnemonic (Some ("Provider:"));
