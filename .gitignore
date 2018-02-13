@@ -3,7 +3,6 @@ _build/
 **/*.rs.bk
 srtnr-gtk/target
 *~
-Makefile
 build/
 Cargo.lock
 *.save
