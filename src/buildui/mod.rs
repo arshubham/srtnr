@@ -33,9 +33,10 @@ use self::prefdialog::PrefDialogUi;
     let headerbar_preferences_button = headerbar.preferences_button;
     GtkWindowExt::set_titlebar (&window, &headerbar.headerbar);
 
-    let win_c = window.clone ();
+    let win_clone = window.clone ();
+    
     headerbar_preferences_button.connect_clicked (move |_| {
-        let pref = PrefDialogUi::new (&win_c);
+        let pref = PrefDialogUi::new (&win_clone);
         PrefDialogUi::run (&pref);
     });
 
@@ -145,12 +146,8 @@ use self::prefdialog::PrefDialogUi;
             full_url = url_entry_text;
         }
         let mut successful = false;
-        libnotify::init ("Srtnr").unwrap ();
-        let n = libnotify::Notification::new ("Short Url Copied into clipboard.",
-                                        None,
-                                        None);
         
-        libnotify::Notification::set_app_name (&n, None);
+        
 
         let display = window_clone.get_display ().unwrap ();
         let gclipboard = Clipboard::get_default (&display).unwrap ();
@@ -172,7 +169,7 @@ use self::prefdialog::PrefDialogUi;
                 Ok (short_url) => {
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show ().unwrap ();
+                    notification (short_url);
                     successful = true;         
                 },
                 Err (error) => {
@@ -191,7 +188,7 @@ use self::prefdialog::PrefDialogUi;
                 Ok (short_url) => {
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show ().unwrap ();
+                    notification (short_url);
                     successful = true;
                 },
                 Err (error) => {
@@ -206,7 +203,7 @@ use self::prefdialog::PrefDialogUi;
                 Ok (short_url) => {
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show ().unwrap ();
+                    notification (short_url);
                     successful = true;
                 },
                 Err (error) => { 
@@ -221,7 +218,7 @@ use self::prefdialog::PrefDialogUi;
                 Ok (short_url) => {
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show ().unwrap ();
+                    notification (short_url);
                     successful = true;
                 },
                 Err (error) => {
@@ -236,7 +233,7 @@ use self::prefdialog::PrefDialogUi;
                  Ok (short_url) => {
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show ().unwrap ();
+                    notification (short_url);
                     successful = true;
                 },
                 Err (error) => {
@@ -251,7 +248,7 @@ use self::prefdialog::PrefDialogUi;
                 Ok (short_url) => {
                     LabelExt::set_label (&short_label_clone, &short_url);
                     gclipboard.set_text (&short_url);
-                    n.show ().unwrap ();
+                    notification (short_url);
                     successful = true;
                 },
                 Err (error) => {
@@ -263,7 +260,7 @@ use self::prefdialog::PrefDialogUi;
         _ =>  short_label_clone.set_label ("Please choose a provider"),
         }
             
-        libnotify::uninit ();
+        
 
         if successful {
             SettingsExt::set_int (&settings, "default-provider", selected_index);
@@ -284,4 +281,21 @@ use self::prefdialog::PrefDialogUi;
 
 fn validate_url (url: &String) -> bool {
     validator::validate_url (&url)
+}
+
+fn notification (short_url: String) {
+    libnotify::init ("Srtnr").unwrap ();
+    let url = String::from(short_url);
+
+    // https://stackoverflow.com/questions/31233938/converting-from-optionstring-to-optionstr#31234028
+    let opt: Option<String> = Some(url.to_owned());
+    let value = opt.as_ref().map(|x| &**x).unwrap_or(" ");
+
+    let n = libnotify::Notification::new ("Short Url Copied into clipboard.",
+                                        Some (value),
+                                        None);
+        
+        libnotify::Notification::set_app_name (&n, None);
+        n.show ().unwrap ();
+        libnotify::uninit ();
 }
