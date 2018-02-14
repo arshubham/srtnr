@@ -14,7 +14,7 @@ impl HeaderUi {
         HeaderBarExt::set_title (&headerbar, "Srtnr");
         HeaderBarExt::set_show_close_button (&headerbar, true);
 
-        let preferences_button = Button::new_from_icon_name ("preferences-other", IconSize::LargeToolbar.into ());
+        let preferences_button = Button::new_from_icon_name ("open-menu", IconSize::LargeToolbar.into ());
 
         HeaderBarExt::pack_end (&headerbar, &preferences_button);
 
