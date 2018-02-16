@@ -1,12 +1,11 @@
-prefix ?= /usr/local
+prefix ?= /usr
 exec_prefix = $(prefix)
 bindir = $(exec_prefix)/bin
-libdir = $(exec_prefix)/lib
 includedir = $(prefix)/include
 datarootdir = $(prefix)/share
 datadir = $(datarootdir)
 
-PHONY: all clean distclean install uninstall update
+.PHONY: all install uninstall
 
 BIN=com.github.arshubham.srtnr
 
@@ -19,41 +18,10 @@ debug: target/debug/$(BIN)
 clean:
 	cargo clean
 
-distclean: clean
-	rm -rf .cargo vendor
-
 install: all
 	install -D -m 0755 "target/release/$(BIN)" "$(DESTDIR)$(bindir)/$(BIN)"
 
+uninstall: rm -f "$(DESTDIR)$(bindir)/$(BIN)"
 
-uninstall:
-	rm -f "$(DESTDIR)$(bindir)/$(BIN)"
-	rm -f "$(DESTDIR)$(libdir)/lib$(BIN).so"
-	rm -f "$(DESTDIR)$(includedir)/$(BIN).h"
-	rm -f "$(DESTDIR)$(datadir)/pkgconfig/$(BIN).pc"
-	rm -f "$(DESTDIR)$(datadir)/vala/vapi/$(BIN).vapi"
-
-.cargo/config: 	vendor_config
-				mkdir -p .cargo
-				cp $< $@
-
-vendor: .cargo/config
-		cargo vendor
-		touch vendor
-
-# Each lib crate type has to be built independently, else there will be a compiler error.
-target/release/$(BIN) target/release/lib$(BIN).so target/include/$(BIN).h target/pkgconfig/$(BIN).pc.stub: $(SRC)
-	if [ -d vendor ]; \
-	then \
-		cargo rustc --frozen --lib --release -- --crate-type=dylib; \
-		cargo build --frozen --bin distinst --release; \
-	else \
-		cargo rustc --lib --release -- --crate-type=dylib; \
-		cargo build --bin distinst --release; \
-	fi
-
-target/pkgconfig/$(BIN).pc: target/pkgconfig/$(BIN).pc.stub
-	echo "libdir=$(libdir)" > "$@.partial"
-	echo "includedir=$(includedir)" >> "$@.partial"
-	cat "$<" >> "$@.partial"
-	mv "$@.partial" "$@"
+target/release/$(BIN): $(SRC)
+		cargo build --release -p srtnr && mv target/release/srtnr target/release/$(BIN)
