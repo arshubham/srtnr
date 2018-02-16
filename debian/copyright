@@ -2,7 +2,7 @@ Format: http://dep.debian.net/deps/dep5
 Upstream-Name: Srtnr
 Source: https://github.com/arshubham/srtnr
 
-Files: src/* data/* scripts/* debian/* 
+Files: src/* data/* vendor/* .cargo/* debian/* 
 Copyright: 2018 Shubham Arora
 License: GPL-3.0+
 
