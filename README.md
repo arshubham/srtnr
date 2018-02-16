@@ -32,14 +32,20 @@
 - meson
 ```
 
-**Note** : Use rustc and cargo from repository instead of rustup for now. There are some issues when running ```ninja install``` . You can still use the **rustup** version if you just want to run the application using cargo.
-
 ### Delete Vendor Files 
-##### (These are only needed for houston and may create problems when building) 
+##### (These are only needed for houston, remove them if you want to update the libraries and generate them again)
+
 ```
 cd srtnr
 rm -r vendor
 rm -r .cargo
+```
+
+### Generate Vendor Files
+```
+cd srtnr
+cargo install cargo-vendor    //Only need to install this once
+make vendor
 ```
 
 ### Executing without Installation
@@ -50,12 +56,13 @@ cargo run
 ```
 
 ### Building and Installation
+#### (Build will use vendored crates if vendor folder is present, remove it to fetch crates from https://crates.io)
 
 ```
 git clone https://github.com/arshubham/srtnr.git && cd srtnr
-meson build && cd build
-ninja
-sudo ninja install
+make clean
+make
+sudo make install
 
 ```
 
