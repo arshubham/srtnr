@@ -7,7 +7,7 @@
     <img align="center" src="https://appcenter.elementary.io/badge.svg" alt="Get it on AppCenter">
     </a>
     <br>
-    ##### *Not yet available on appcenter
+    <small> *Not yet available on appcenter<small>
 </div>
 
 <br/>
