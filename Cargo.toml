@@ -1,6 +1,6 @@
 [package]
 name = "srtnr"
-version = "0.1.9"
+version = "0.1.10"
 authors = ["Shubham Arora <shubhamarora@protonmail.com>"]
 
 [dependencies.gtk]
