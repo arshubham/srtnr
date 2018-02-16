@@ -15,17 +15,8 @@
 	dh $@
 
 override_dh_auto_clean:
-	rm -rf debian/build
-
-override_dh_auto_configure:
-	mkdir -p debian/build
-	cd debian/build && meson --prefix=/usr ../..
-
-override_dh_auto_build:
-	cd debian/build && ninja -v
-
-override_dh_auto_test:
-	cd debian/build && ninja test
+	make clean
+	make vendor
 
 override_dh_auto_install:
-	cd debian/build && DESTDIR=${CURDIR}/debian/com.github.arshubham.srtnr ninja install
+dh_auto_install -- prefix=/usr
