@@ -1,0 +1,30 @@
+dist: trusty
+sudo: false
+language: rust
+rust:
+- nightly
+- beta
+- stable
+addons:
+  apt:
+    packages:
+    - libgdk-pixbuf2.0-common
+    - libgdk-pixbuf2.0-dev
+    - libglib2.0-data
+    - libglib2.0-dev
+    - libnotify-dev
+before_script:
+- |
+  pip install 'travis-cargo<0.2' --user &&
+  export PATH=$HOME/.local/bin:$PATH
+script:
+- |
+  travis-cargo build &&
+  # travis-cargo test &&
+  travis-cargo --only stable doc
+after_success:
+- travis-cargo --only stable doc-upload
+env:
+  global:
+  - TRAVIS_CARGO_NIGHTLY_FEATURE=""
+  - secure: B9+n+ikrYqSxK1SYOHIvjtYi58IvdVC0HYJxyDiJnzIcEtos/aDiGbMZU1pIvC+qIAibdltIqzZ1afVC1msfsxeaov2e4VPKfTJV0gwLLq6tzuuaOeujtM9YUUWrdr8QQXk3LEPIl8HD5jm6VTLcl2TqPeiiyn96rk67nA5jeS8=

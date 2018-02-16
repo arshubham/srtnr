@@ -50,7 +50,23 @@ uninstall:
 	rm -f "$(datarootdir)/glib-2.0/schemas/com.github.arshubham.srtnr.gschema.xml"
 	glib-compile-schemas $(datarootdir)/glib-2.0/schemas/
 
+.cargo/config: vendor_config
+	mkdir -p .cargo
+	cp $< $@
+
+update:
+	cargo update
+
+vendor: .cargo/config
+	cargo vendor
+	touch vendor
+
 target/release/$(BIN): $(SRC)
-	cargo build --release -p srtnr && mv target/release/srtnr target/release/$(BIN)
 	mkdir -p target/release/data
 	cp -r $(DATA) target/release/data		
+	if [ -d vendor ]; \
+	then \
+		cargo build --release --frozen -p srtnr && mv target/release/srtnr target/release/$(BIN); \
+	else \
+		cargo build --release -p srtnr && mv target/release/srtnr target/release/$(BIN); \
+	fi 

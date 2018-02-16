@@ -1,0 +1,9 @@
+[package]
+name = "luhnmod10"
+version = "1.1.0"
+authors = ["Leigh McCulloch"]
+license = "MIT"
+description = "Fast and simple in-place implementation of the luhn (mod 10) algorithm."
+homepage = "https://github.com/luhnmod10/rust"
+repository = "https://github.com/luhnmod10/rust"
+readme = "README.md"

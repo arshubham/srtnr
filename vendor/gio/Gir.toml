@@ -1,0 +1,127 @@
+[options]
+girs_dir = "gir-files"
+library = "Gio"
+version = "2.0"
+min_cfg_version = "2.32"
+target_path = "."
+work_mode = "normal"
+
+generate = [
+    "Gio.Action",
+    "Gio.ActionMap",
+    "Gio.AppInfo",
+    "Gio.AppInfoCreateFlags",
+    "Gio.AppLaunchContext",
+    "Gio.ApplicationFlags",
+    "Gio.Cancellable",
+    "Gio.FileCreateFlags",
+    "Gio.FileInfo",
+    "Gio.FileQueryInfoFlags",
+    "Gio.FileType",
+    "Gio.Icon",
+    "Gio.Menu",
+    "Gio.MenuAttributeIter",
+    "Gio.MenuItem",
+    "Gio.MenuLinkIter",
+    "Gio.MenuModel",
+    "Gio.NotificationPriority",
+    "Gio.Permission",
+    "Gio.ResourceError",
+    "Gio.ResourceLookupFlags",
+    "Gio.SettingsBindFlags",
+    "Gio.SimpleActionGroup",
+    "Gio.SimplePermission",
+    "Gio.ThemedIcon",
+    "Gio.TlsCertificate",
+    "Gio.TlsCertificateFlags",
+]
+
+ignore = [
+]
+
+manual = [
+    "GLib.Bytes",
+    "GLib.Error",
+    "GLib.Variant",
+    "GLib.VariantType",
+    "GObject.Object",
+]
+
+[[object]]
+name = "Gio.*"
+status = "generate"
+    [[object.function]]
+    pattern = "unix_.+"
+    cfg_condition = "unix"
+
+[[object]]
+name = "Gio.ActionGroup"
+status = "generate"
+    [[object.function]]
+    name = "query_action"
+    ignore = true
+
+[[object]]
+name = "Gio.Application"
+status = "generate"
+    [[object.signal]]
+    name = "open"
+    ignore = true
+    [[object.function]]
+    name = "run"
+    ignore = true
+
+[[object]]
+name = "Gio.File"
+status = "generate"
+    [[object.function]]
+    name = "new_for_path"
+        [object.function.return]
+        nullable = false
+    [[object.function]]
+    name = "new_for_uri"
+        [object.function.return]
+        nullable = false
+    [[object.function]]
+    name = "new_for_commandline_arg"
+        [object.function.return]
+        nullable = false
+    [[object.function]]
+    name = "new_for_commandline_arg_and_cwd"
+        [object.function.return]
+        nullable = false
+    [[object.function]]
+    name = "hash"
+    ignore = true
+
+[[object]]
+name = "Gio.Notification"
+status = "generate"
+
+[[object]]
+name = "Gio.Settings"
+status = "generate"
+    [[object.signal]]
+    name = "writable-change-event"
+    inhibit = true
+
+[[object]]
+name = "Gio.SimpleAction"
+status = "generate"
+    [[object.property]]
+    name = "parameter-type"
+    #value glib::VariantTy
+    ignore = true
+    [[object.property]]
+    name = "state"
+    #value glib::VariantTy
+    ignore = true
+
+[[object]]
+name = "Gio.Resource"
+status = "generate"
+    [[object.function]]
+    name = "new_from_data"
+    # Requires special alignment, see
+    # https://bugzilla.gnome.org/show_bug.cgi?id=790030
+    ignore = true
