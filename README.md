@@ -6,7 +6,8 @@
   <a href="https://appcenter.elementary.io/com.github.arshubham.srtnr" target="_blank">
     <img align="center" src="https://appcenter.elementary.io/badge.svg" alt="Get it on AppCenter">
     </a>
-    #####*Not yet available on appcenter
+    <br>
+    ##### *Not yet available on appcenter
 </div>
 
 <br/>
