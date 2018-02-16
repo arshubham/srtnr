@@ -20,10 +20,6 @@ clean:
 	rm -r target/release/data
 	cargo clean
 
-copydata: 
-	mkdir -p target/release/data
-	cp -r $(DATA) target/release/data
-
 install: all
 	install -D -m 0755 "target/release/$(BIN)" "$(DESTDIR)$(bindir)/$(BIN)"
 	install -D -m 0644 "target/release/data/images/icons/16/com.github.arshubham.srtnr.svg" "$(datarootdir)/icons/hicolor/16x16/apps/com.github.arshubham.srtnr.svg"
@@ -36,6 +32,8 @@ install: all
 	install -D -m 0644 "target/release/data/images/com.github.arshubham.srtnr.png" "$(datarootdir)/pixmaps/com.github.arshubham.srtnr.png"
 	install -D -m 0644 "target/release/data/com.github.arshubham.srtnr.appdata.xml" "$(datarootdir)/metainfo/com.github.arshubham.srtnr.appdata.xml"
 	install -D -m 0644 "target/release/data/com.github.arshubham.srtnr.desktop" "$(datarootdir)/applications/com.github.arshubham.srtnr.desktop"
+	install -D -m 0644 "target/release/data/com.github.arshubham.srtnr.gschema.xml" "$(datarootdir)/glib-2.0/schemas/com.github.arshubham.srtnr.gschema.xml"
+	glib-compile-schemas $(datarootdir)/glib-2.0/schemas/
 
 uninstall: 
 	rm -f "$(DESTDIR)$(bindir)/$(BIN)"
@@ -49,7 +47,10 @@ uninstall:
 	rm -f "$(datarootdir)/pixmaps/com.github.arshubham.srtnr.png"
 	rm -f "$(datarootdir)/metainfo/com.github.arshubham.srtnr.appdata.xml"
 	rm -f "$(datarootdir)/applications/com.github.arshubham.srtnr.desktop"
+	rm -f "$(datarootdir)/glib-2.0/schemas/com.github.arshubham.srtnr.gschema.xml"
+	glib-compile-schemas $(datarootdir)/glib-2.0/schemas/
 
 target/release/$(BIN): $(SRC)
-		cargo build --release -p srtnr && mv target/release/srtnr target/release/$(BIN)
-		copydata
+	cargo build --release -p srtnr && mv target/release/srtnr target/release/$(BIN)
+	mkdir -p target/release/data
+	cp -r $(DATA) target/release/data		
