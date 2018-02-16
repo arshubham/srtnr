@@ -6,6 +6,7 @@
   <a href="https://appcenter.elementary.io/com.github.arshubham.srtnr" target="_blank">
     <img align="center" src="https://appcenter.elementary.io/badge.svg" alt="Get it on AppCenter">
     </a>
+    #####*Not yet available on appcenter
 </div>
 
 <br/>
@@ -63,12 +64,17 @@ git clone https://github.com/arshubham/srtnr.git && cd srtnr
 make clean
 make
 sudo make install
-
 ```
 
 ### Executing
 ```
 com.github.arshubham.srtnr
+```
+
+### Uninstallation
+```
+cd srtnr
+sudo make uninstall
 ```
 
 ## License
