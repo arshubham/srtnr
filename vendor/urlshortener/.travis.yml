@@ -1,0 +1,33 @@
+language: rust
+matrix:
+    fast_finish: true
+    include:
+        - rust: nightly
+        - rust: beta
+        - rust: stable
+
+sudo: false
+
+cache:
+    apt: true
+    directories:
+        - $TRAVIS_BUILD_DIR/target
+        - $HOME/.cargo
+        
+before_script:
+  - export PATH="$PATH:$HOME/.cargo/bin"
+  - rustup install nightly
+  - cargo +nightly install --force rustfmt-nightly
+
+script:
+  - cargo +nightly fmt -- --write-mode diff
+  - cargo check
+  - cargo test --verbose $FEATURES -- --nocapture
+
+addons:
+  apt:
+    packages:
+      - libssl-dev
+
+notifications:
+email: false

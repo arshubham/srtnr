@@ -2,18 +2,22 @@ Source: com.github.arshubham.srtnr
 Section: x11
 Priority: extra
 Maintainer: Shubham Arora <shubhamarora@protonmail.com>
-Build-Depends: meson,
-               debhelper (>= 9),
-               libgtk-3-dev,
-               libjson-glib-dev,
-               rustc,
-               cargo,
-               libssl-dev,
-               pkgconf,
-               libpng-dev
-Standards-Version: 3.9.3
+Build-Depends:
+    cargo,
+    debhelper (>= 9),
+    rustc,
+    libjson-glib-dev,
+    libssl-dev,
+    pkgconf,
+    libpng-dev,
+    libnotify-dev
+Standards-Version: 4.1.1
 
 Package: com.github.arshubham.srtnr
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
+Depends:
+  libgtk-3-dev,
+  libjson-glib-dev,
+  ${misc:Depends},
+  ${shlibs:Depends}
 Description: Shorten long Urls
