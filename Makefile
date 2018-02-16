@@ -17,7 +17,7 @@ all: target/release/$(BIN)
 debug: target/debug/$(BIN)
 
 clean:
-	rm -r target/release/data
+	rm -rf target/release/data
 	cargo clean
 
 install: all
