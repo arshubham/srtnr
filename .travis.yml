@@ -16,8 +16,6 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - libstdc++-4.9-dev
-      - rustc
-      - cargo
 
 cache:
   directories:
@@ -30,6 +28,7 @@ matrix:
 
 before_install:
   - docker pull ubuntu:16.04
+  - sudo apt-get install rustc cargo
   
 install:
   - npm install @elementaryos/houston
