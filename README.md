@@ -31,7 +31,6 @@
 - rustc
 - cargo
 - libpng-dev
-- meson
 ```
 
 ### Delete Vendor Files 
