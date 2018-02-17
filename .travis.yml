@@ -28,7 +28,7 @@ matrix:
 
 before_install:
   - docker pull ubuntu:16.04
-  - curl -sSf https://static.rust-lang.org/rustup.sh | sh && rustc -V
+  - curl -sSf https://static.rust-lang.org/rustup.sh | sh && source $HOME/.cargo/env && rustc -V
   
 install:
   - npm install @elementaryos/houston
