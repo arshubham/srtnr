@@ -28,10 +28,11 @@ matrix:
 
 before_install:
   - docker pull ubuntu:16.04
-
+  - curl -sSf https://static.rust-lang.org/rustup.sh | sh && rustc -V
+  
 install:
   - npm install @elementaryos/houston
-
+  
 script:
   - houston ci
     --name-appstream com.github.arshubham.srtnr.desktop
