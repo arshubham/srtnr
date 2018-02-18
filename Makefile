@@ -18,10 +18,10 @@ debug: target/debug/$(BIN)
 
 clean:
 	rm -rf target/release/data
+	apt-get -yq --force-yes install libssl-dev pkgconf libnotify-dev rustc cargo libpng12-dev libgtk-3-dev libjson-glib-dev
 	cargo clean
 
 install: all
-	apt-get -yq --force-yes install libssl-dev pkgconf libnotify-dev rustc cargo libpng12-dev libgtk-3-dev libjson-glib-dev
 	install -D -m 0755 "target/release/$(BIN)" "$(DESTDIR)$(bindir)/$(BIN)"
 	install -D -m 0644 "target/release/data/images/icons/16/com.github.arshubham.srtnr.svg" "$(datarootdir)/icons/hicolor/16x16/apps/com.github.arshubham.srtnr.svg"
 	install -D -m 0644 "target/release/data/images/icons/24/com.github.arshubham.srtnr.svg" "$(datarootdir)/icons/hicolor/24x24/apps/com.github.arshubham.srtnr.svg"
