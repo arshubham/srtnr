@@ -18,7 +18,7 @@ debug: target/debug/$(BIN)
 
 clean:
 	rm -rf target/release/data
-	apt-get install libssl-dev pkgconf libnotify-dev rustc cargo
+	apt-get -yq --force-yes install libssl-dev pkgconf libnotify-dev rustc cargo libpng12-dev libgtk-3-dev libjson-glib-dev
 	cargo clean
 
 install: all
