@@ -3,8 +3,7 @@ Section: x11
 Priority: extra
 Maintainer: Shubham Arora <shubhamarora@protonmail.com>
 Build-Depends: debhelper (>= 9),
-        rustc,
-        cargo
+        rustc
 Standards-Version: 3.9.3
 
 Package: com.github.arshubham.srtnr
