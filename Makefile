@@ -60,7 +60,7 @@ update:
 	cargo update
 
 vendor: .cargo/config
-	cargo vendor
+	#cargo vendor
 	touch vendor
 
 target/release/$(BIN): $(SRC)
