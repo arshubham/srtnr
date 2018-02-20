@@ -1,9 +1,18 @@
 Source: com.github.arshubham.srtnr
 Section: x11
-Priority: extra
+Priority: optional
 Maintainer: Shubham Arora <shubhamarora@protonmail.com>
-Build-Depends: debhelper (>= 9)
-Standards-Version: 3.9.3
+Build-Depends: debhelper (>= 9),
+    libnotify-dev,
+    pkgconf,
+    libpng-dev,
+    libssl-dev,
+    libcairo2-dev,
+    libjson-glib-dev,
+    libgtk-3-dev,
+    libjson-glib-dev,
+    cargo
+Standards-Version: 4.1.1
 
 Package: com.github.arshubham.srtnr
 Architecture: any
