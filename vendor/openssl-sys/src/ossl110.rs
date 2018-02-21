@@ -33,6 +33,10 @@ pub enum X509_ALGOR {}
 pub enum X509_VERIFY_PARAM {}
 pub enum X509_REQ {}
 
+#[cfg(ossl111)]
+pub type SSL_CTX_keylog_cb_func =
+    Option<unsafe extern "C" fn(ssl: *const SSL, line: *const c_char)>;
+
 pub const SSL_OP_MICROSOFT_SESS_ID_BUG: c_ulong = 0x00000000;
 pub const SSL_OP_NETSCAPE_CHALLENGE_BUG: c_ulong = 0x00000000;
 pub const SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG: c_ulong = 0x00000000;
@@ -43,6 +47,9 @@ pub const SSL_OP_TLS_BLOCK_PADDING_BUG: c_ulong = 0x00000000;
 pub const SSL_OP_SINGLE_ECDH_USE: c_ulong = 0x00000000;
 pub const SSL_OP_SINGLE_DH_USE: c_ulong = 0x00000000;
 pub const SSL_OP_NO_SSLv2: c_ulong = 0x00000000;
+
+#[cfg(ossl111)]
+pub const TLS1_3_VERSION: c_int = 0x304;
 
 pub const OPENSSL_VERSION: c_int = 0;
 pub const OPENSSL_CFLAGS: c_int = 1;
@@ -206,6 +213,16 @@ extern "C" {
     pub fn SSL_CTX_get_options(ctx: *const ::SSL_CTX) -> c_ulong;
     pub fn SSL_CTX_set_options(ctx: *mut ::SSL_CTX, op: c_ulong) -> c_ulong;
     pub fn SSL_CTX_clear_options(ctx: *mut ::SSL_CTX, op: c_ulong) -> c_ulong;
+    pub fn SSL_CTX_sess_set_get_cb(
+        ctx: *mut ::SSL_CTX,
+        get_session_cb: Option<
+            unsafe extern "C" fn(*mut ::SSL, *const c_uchar, c_int, *mut c_int) -> *mut SSL_SESSION,
+        >,
+    );
+    pub fn SSL_get_client_random(ssl: *const SSL, out: *mut c_uchar, len: size_t) -> size_t;
+    pub fn SSL_get_server_random(ssl: *const SSL, out: *mut c_uchar, len: size_t) -> size_t;
+    #[cfg(ossl111)]
+    pub fn SSL_CTX_set_keylog_callback(ctx: *mut ::SSL_CTX, cb: SSL_CTX_keylog_cb_func);
     pub fn X509_getm_notAfter(x: *const ::X509) -> *mut ::ASN1_TIME;
     pub fn X509_getm_notBefore(x: *const ::X509) -> *mut ::ASN1_TIME;
     pub fn X509_get0_signature(
@@ -224,6 +241,7 @@ extern "C" {
     pub fn BIO_get_data(a: *mut ::BIO) -> *mut c_void;
     pub fn BIO_meth_new(type_: c_int, name: *const c_char) -> *mut ::BIO_METHOD;
     pub fn BIO_meth_free(biom: *mut ::BIO_METHOD);
+    // FIXME should wrap in Option
     pub fn BIO_meth_set_write(
         biom: *mut ::BIO_METHOD,
         write: unsafe extern "C" fn(*mut ::BIO, *const c_char, c_int) -> c_int,
