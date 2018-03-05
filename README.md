@@ -31,6 +31,7 @@
 - rustc
 - cargo
 - libpng-dev
+- libcairo2-dev
 ```
 
 ### Delete Vendor Files 
