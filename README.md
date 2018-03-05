@@ -25,6 +25,8 @@
 
 ```
 - elementary-sdk
+- build-essential
+- libgtk-3-dev
 - libnotify-dev
 - pkgconf
 - libssl-dev
@@ -32,6 +34,9 @@
 - cargo
 - libpng-dev
 - libcairo2-dev
+- libatk1.0-dev
+- libpango1.0-dev
+- libgdk3.0-cil-dev
 ```
 
 ### Delete Vendor Files 
