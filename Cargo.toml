@@ -4,14 +4,14 @@ version = "0.1.11"
 authors = ["Shubham Arora <shubhamarora@protonmail.com>"]
 
 [dependencies.gtk]
-version = "0.3.0"
+version = "0.4.0"
 features = ["v3_18"]
 
 [dependencies]
-gio = "0.3.0"
+gio = "0.4.0"
 gdk = "0.7.0"
 glib = "0.4.1"
 urlshortener = "0.8.1"
 validator = "0.6.3"
 libnotify = "1.0.3"
-gdk-pixbuf = "0.3.0"
+gdk-pixbuf = "0.4.0"
