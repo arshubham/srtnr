@@ -9,7 +9,7 @@ features = ["v3_18"]
 
 [dependencies]
 gio = "0.3.0"
-gdk = "0.7.0"
+gdk = "0.9.0"
 glib = "0.4.1"
 urlshortener = "0.8.1"
 validator = "0.6.3"
