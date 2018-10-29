@@ -8,7 +8,7 @@ version = "0.3.0"
 features = ["v3_18"]
 
 [dependencies]
-gio = "0.3.0"
+gio = "0.5.1"
 gdk = "0.7.0"
 glib = "0.4.1"
 urlshortener = "0.8.1"
