@@ -4,7 +4,7 @@ version = "0.1.11"
 authors = ["Shubham Arora <shubhamarora@protonmail.com>"]
 
 [dependencies.gtk]
-version = "0.3.0"
+version = "0.7.0"
 features = ["v3_18"]
 
 [dependencies]
